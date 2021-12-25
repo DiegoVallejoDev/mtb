@@ -29,7 +29,6 @@ function registerComponent(path, name = undefined) {
 }
 
 
-
 function getComponent(name) {
     if (componentColecction[name] == undefined) {
         console.error("Component " + name + " not found");
@@ -71,8 +70,6 @@ function compileComponents(page) {
             pageContent = pageContent.replace(component, componentContent);
         });
     }
-
-
     return pageContent;
 }
 
@@ -86,3 +83,30 @@ function createPages() {
 }
 
 
+function run() {
+
+    console.log("┏ mtb.js v0.1");
+
+    if (!fs.existsSync(COMPONENT_DIR)) {
+        fs.mkdirSync(COMPONENT_DIR);
+        fs.mkdirSync(PAGES_DIR);
+        console.log("┠ No components directories found, creating new ones");
+    }
+
+    // register the components
+    fs.readdirSync(COMPONENT_DIR).forEach(component => {
+        registerComponent(COMPONENT_DIR + component);
+    });
+    console.log("┠ Found : ", Object.keys(componentColecction).length, " components in ", COMPONENT_DIR);
+
+
+    console.log("┠ preparing pages...");
+    preparePages();
+    console.log("┠ Found : ", Object.keys(pagesCollection).length, " pages in ", PAGES_DIR);
+
+
+    console.log("┠ Compiling pages...");
+    createPages();
+    console.log("┗ Done");
+
+}
