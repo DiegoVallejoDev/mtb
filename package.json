@@ -4,7 +4,8 @@
   "description": "a JavaScript library for building applications with a consistent design and code structure.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "bin": "cli.js"
   },
   "repository": {
     "type": "git",
