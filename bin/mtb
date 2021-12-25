@@ -1,4 +1,7 @@
 #!/usr/bin/env node
 
-require("../").run();
 
+"use strict"
+import {run} from '../index.js';
+
+run()
