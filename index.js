@@ -15,7 +15,7 @@ let PAGES_DIR = "src/pages/";
 let componentColecction = {};
 let pagesCollection = {};
 
-export function registerComponent(path, name = undefined) {
+function registerComponent(path, name = undefined) {
     // read the component html file
     let component = fs.readFileSync(path, 'utf8');
     // get the name of the component
@@ -29,7 +29,7 @@ export function registerComponent(path, name = undefined) {
 }
 
 
-export function getComponent(name) {
+function getComponent(name) {
     if (componentColecction[name] == undefined) {
         console.error("Component " + name + " not found");
         return undefined;
@@ -38,11 +38,11 @@ export function getComponent(name) {
 }
 
 
-export function getPage(name) {
+function getPage(name) {
     return fs.readFileSync(PAGES_DIR + name, 'utf8');
 }
 
-export function preparePages() {
+function preparePages() {
     let pages = fs.readdirSync(PAGES_DIR);
     pages.forEach(page => {
         let pageName = page.split(".")[0];
@@ -50,7 +50,7 @@ export function preparePages() {
     });
 }
 
-export function compileComponents(page) {
+function compileComponents(page) {
     if (page == undefined || pagesCollection[page] == undefined) {
         console.error("Page " + page + " not found");
         return undefined;
@@ -74,7 +74,7 @@ export function compileComponents(page) {
 }
 
 
-export function createPages() {
+function createPages() {
     for (let page in pagesCollection) {
         let pageContent = compileComponents(page);
         let pagePath = OUTPUT_DIR + page + ".html";
@@ -83,7 +83,7 @@ export function createPages() {
 }
 
 
-export function run() {
+function run() {
 
     console.log("┏ mtb.js v0.1");
 
@@ -109,4 +109,13 @@ export function run() {
     createPages();
     console.log("┗ Done");
 
+}
+
+module.exports = {
+    run: run,
+    registerComponent: registerComponent,
+    getComponent: getComponent,
+    getPage: getPage,
+    compileComponents: compileComponents,
+    createPages: createPages
 }
