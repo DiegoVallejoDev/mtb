@@ -1,0 +1,23 @@
+{
+  "name": "mtb",
+  "version": "0.0.1",
+  "description": "a JavaScript library for building applications with a consistent design and code structure.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoVallejoDev/mtb.git"
+  },
+  "keywords": [
+    "html.template",
+    "simple"
+  ],
+  "author": "Diego Vallejo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiegoVallejoDev/mtb/issues"
+  },
+  "homepage": "https://github.com/DiegoVallejoDev/mtb#readme"
+}
