@@ -2,6 +2,6 @@
 
 
 "use strict"
-import {run} from '../index.js';
+let mtb = require('..')
 
-run()
+mtb.run()
