@@ -1,11 +1,14 @@
 {
   "name": "mtb",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "a JavaScript library for building applications with a consistent design and code structure.",
   "main": "index.js",
   "scripts": {
     "test": "test",
     "bin": "cli.js"
+  },
+  "bin": {
+    "mtb": "bin/mtb"
   },
   "repository": {
     "type": "git",
