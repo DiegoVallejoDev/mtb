@@ -1,11 +1,12 @@
 {
   "name": "mtb",
-  "version": "0.0.10",
-  "description": "a JavaScript library for building applications with a consistent design and code structure.",
+  "version": "0.2.0",
+  "description": "A lightweight static site generator with component-based architecture for building static HTML applications",
   "main": "index.js",
   "scripts": {
-    "test": "test",
-    "bin": "cli.js"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "bin": {
     "mtb": "bin/mtb"
@@ -15,13 +16,47 @@
     "url": "git+https://github.com/DiegoVallejoDev/mtb.git"
   },
   "keywords": [
-    "html.template",
-    "simple"
+    "static-site-generator",
+    "html",
+    "template",
+    "components",
+    "alpine",
+    "alpinejs",
+    "build-tool",
+    "ssg"
   ],
   "author": "Diego Vallejo",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/DiegoVallejoDev/mtb/issues"
   },
-  "homepage": "https://github.com/DiegoVallejoDev/mtb#readme"
+  "homepage": "https://github.com/DiegoVallejoDev/mtb#readme",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chokidar": "^3.5.3"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "index.js"
+    ],
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ]
+  }
 }
