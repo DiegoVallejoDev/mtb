@@ -12,7 +12,7 @@ let OUTPUT_DIR = "public/";
 let PAGES_DIR = "src/pages/";
 
 
-let componentColecction = {};
+let componentCollection = {};
 let pagesCollection = {};
 
 function registerComponent(path, name = undefined) {
@@ -22,19 +22,19 @@ function registerComponent(path, name = undefined) {
     if (name == undefined) {
         name = path.split("/").pop().split(".")[0];
     }
-    if (componentColecction[name] != undefined) {
+    if (componentCollection[name] != undefined) {
         console.warn("Component " + name + " already exists, overriding");
     }
-    componentColecction[name] = component;
+    componentCollection[name] = component;
 }
 
 
 function getComponent(name) {
-    if (componentColecction[name] == undefined) {
+    if (componentCollection[name] == undefined) {
         console.error("Component " + name + " not found");
         return undefined;
     }
-    return componentColecction[name];
+    return componentCollection[name];
 }
 
 
@@ -58,9 +58,9 @@ function compileComponents(page) {
     let pageContent = pagesCollection[page];
 
     //components are imported as {{componentName}} into html pages
-    let components = pageContent.match(/{{[a-zA-Z0-9_]+}}/g);
+    let components = pageContent.match(/{{[a-zA-Z0-9_-]+}}/g);
     if (components != undefined) {
-        components.forEach(component => {
+        for (let component of components) {
             let componentName = component.split("{{")[1].split("}}")[0];
             let componentContent = getComponent(componentName);
             if (componentContent == undefined) {
@@ -68,7 +68,7 @@ function compileComponents(page) {
                 return undefined;
             }
             pageContent = pageContent.replace(component, componentContent);
-        });
+        }
     }
     return pageContent;
 }
@@ -97,7 +97,7 @@ function run() {
     fs.readdirSync(COMPONENT_DIR).forEach(component => {
         registerComponent(COMPONENT_DIR + component);
     });
-    console.log("┠ Found : ", Object.keys(componentColecction).length, " components in ", COMPONENT_DIR);
+    console.log("┠ Found : ", Object.keys(componentCollection).length, " components in ", COMPONENT_DIR);
 
 
     console.log("┠ preparing pages...");
