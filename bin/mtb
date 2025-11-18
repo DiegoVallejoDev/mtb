@@ -1,7 +1,215 @@
 #!/usr/bin/env node
 
+const { program } = require('commander');
+const path = require('path');
+const fs = require('fs');
+const mtb = require('..');
+const package = require('../package.json');
 
-"use strict"
-let mtb = require('..')
+program
+  .name('mtb')
+  .description('All-terrain static site generator')
+  .version(package.version);
 
-mtb.run()
+// Default command (build)
+program
+  .argument('[pages...]', 'Specific pages to build (optional)')
+  .option('-w, --watch', 'Watch for changes and rebuild')
+  .option('-v, --verbose', 'Enable verbose output')
+  .option('-q, --quiet', 'Suppress output')
+  .option('-c, --config <path>', 'Path to config file')
+  .action(async (pages, options) => {
+    try {
+      if (options.watch) {
+        const Config = mtb.Config;
+        const Logger = mtb.Logger;
+        const Watcher = require('../src/Watcher');
+        
+        const config = new Config(options.config);
+        const logger = new Logger({ 
+          verbose: options.verbose || false,
+          quiet: options.quiet || false
+        });
+
+        // Initial build
+        await mtb.run({ 
+          verbose: options.verbose,
+          quiet: options.quiet,
+          configPath: options.config
+        });
+
+        // Start watch mode
+        const watcher = new Watcher(config, async () => {
+          await mtb.run({ 
+            verbose: options.verbose,
+            quiet: options.quiet,
+            configPath: options.config
+          });
+        }, logger);
+
+        await watcher.start();
+
+        // Handle process termination
+        process.on('SIGINT', async () => {
+          console.log('\n\nStopping watch mode...');
+          await watcher.stop();
+          process.exit(0);
+        });
+      } else {
+        // Regular build
+        await mtb.run({ 
+          verbose: options.verbose,
+          quiet: options.quiet,
+          configPath: options.config
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+      if (options.verbose) {
+        console.error(error.stack);
+      }
+      process.exit(1);
+    }
+  });
+
+// Init command
+program
+  .command('init')
+  .description('Initialize a new mtb project')
+  .option('-t, --template <name>', 'Use a project template', 'basic')
+  .action(async (options) => {
+    try {
+      const template = options.template;
+      
+      console.log(`🎨 Initializing mtb project with "${template}" template...\n`);
+      
+      // Create directory structure
+      const dirs = ['src/components', 'src/pages', 'public'];
+      for (const dir of dirs) {
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+          console.log(`  ✓ Created ${dir}/`);
+        }
+      }
+      
+      // Create example components
+      const headerHtml = '<header>\n  <h1>My Site</h1>\n  <nav>\n    <a href="/">Home</a>\n    <a href="/about.html">About</a>\n  </nav>\n</header>';
+      
+      const footerHtml = '<footer>\n  <p>&copy; 2025 My Site</p>\n</footer>';
+      
+      fs.writeFileSync('src/components/header.html', headerHtml);
+      console.log('  ✓ Created src/components/header.html');
+      
+      fs.writeFileSync('src/components/footer.html', footerHtml);
+      console.log('  ✓ Created src/components/footer.html');
+      
+      // Create example page
+      const indexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+</head>
+<body>
+  {{header}}
+  <main>
+    <h2>Welcome to mtb!</h2>
+    <p>Edit this page in <code>src/pages/index.html</code></p>
+  </main>
+  {{footer}}
+</body>
+</html>`;
+      
+      fs.writeFileSync('src/pages/index.html', indexHtml);
+      console.log('  ✓ Created src/pages/index.html');
+      
+      // Create config file
+      const config = {
+        directories: {
+          components: "src/components/",
+          pages: "src/pages/",
+          output: "public/"
+        }
+      };
+      
+      fs.writeFileSync('mtb.config.js', `module.exports = ${JSON.stringify(config, null, 2)};\n`);
+      console.log('  ✓ Created mtb.config.js');
+      
+      // Create .gitignore
+      fs.writeFileSync('.gitignore', 'node_modules/\npublic/\n.mtb-cache.json\n');
+      console.log('  ✓ Created .gitignore');
+      
+      console.log('\n✅ Project initialized successfully!');
+      console.log('\nNext steps:');
+      console.log('  1. Run: mtb');
+      console.log('  2. Open: public/index.html\n');
+      
+    } catch (error) {
+      console.error('Error initializing project:', error.message);
+      process.exit(1);
+    }
+  });
+
+// Build command (explicit)
+program
+  .command('build [pages...]')
+  .description('Build pages')
+  .option('-w, --watch', 'Watch for changes and rebuild')
+  .option('-v, --verbose', 'Enable verbose output')
+  .option('-q, --quiet', 'Suppress output')
+  .option('-c, --config <path>', 'Path to config file')
+  .action(async (pages, options) => {
+    try {
+      if (options.watch) {
+        const Config = mtb.Config;
+        const Logger = mtb.Logger;
+        const Watcher = require('../src/Watcher');
+        
+        const config = new Config(options.config);
+        const logger = new Logger({ 
+          verbose: options.verbose || false,
+          quiet: options.quiet || false
+        });
+
+        // Initial build
+        await mtb.run({ 
+          verbose: options.verbose,
+          quiet: options.quiet,
+          configPath: options.config
+        });
+
+        // Start watch mode
+        const watcher = new Watcher(config, async () => {
+          await mtb.run({ 
+            verbose: options.verbose,
+            quiet: options.quiet,
+            configPath: options.config
+          });
+        }, logger);
+
+        await watcher.start();
+
+        // Handle process termination
+        process.on('SIGINT', async () => {
+          console.log('\n\nStopping watch mode...');
+          await watcher.stop();
+          process.exit(0);
+        });
+      } else {
+        await mtb.run({ 
+          verbose: options.verbose,
+          quiet: options.quiet,
+          configPath: options.config
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+      if (options.verbose) {
+        console.error(error.stack);
+      }
+      process.exit(1);
+    }
+  });
+
+program.parse();

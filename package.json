@@ -31,9 +31,23 @@
     "url": "https://github.com/DiegoVallejoDev/mtb/issues"
   },
   "homepage": "https://github.com/DiegoVallejoDev/mtb#readme",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chokidar": "^3.5.3"
+  },
   "devDependencies": {
     "jest": "^29.5.0"
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
   "jest": {
     "testEnvironment": "node",
     "coverageDirectory": "coverage",

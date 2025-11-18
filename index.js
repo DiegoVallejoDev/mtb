@@ -212,5 +212,6 @@ module.exports = {
     ComponentRegistry,
     PageCompiler,
     FileManager,
-    Logger
+    Logger,
+    Watcher: require('./src/Watcher')
 };
