@@ -21,10 +21,24 @@ class ComponentRegistry {
      * @returns {Promise<string>} The component name
      */
     async register(componentPath, name = undefined) {
+        // Input validation with strict equality
+        if (componentPath === undefined || componentPath === null || typeof componentPath !== 'string') {
+            throw new Error('Component path must be a non-empty string');
+        }
+        
+        if (componentPath.trim() === '') {
+            throw new Error('Component path cannot be empty');
+        }
+        
         const component = await this.fileManager.readFile(componentPath);
         
-        if (name === undefined) {
+        if (name === undefined || name === null) {
             name = path.basename(componentPath, path.extname(componentPath));
+        }
+        
+        // Validate name type
+        if (typeof name !== 'string') {
+            throw new Error('Component name must be a string');
         }
         
         // Validate component name
@@ -49,6 +63,11 @@ class ComponentRegistry {
      * @throws {ComponentNotFoundError} If component not found
      */
     get(name) {
+        // Input validation with strict equality
+        if (name === undefined || name === null || typeof name !== 'string') {
+            throw new Error('Component name must be a non-empty string');
+        }
+        
         if (this.components[name] === undefined) {
             throw new ComponentNotFoundError(name);
         }
@@ -61,6 +80,9 @@ class ComponentRegistry {
      * @returns {boolean} True if component exists
      */
     has(name) {
+        if (name === undefined || name === null || typeof name !== 'string') {
+            return false;
+        }
         return this.components[name] !== undefined;
     }
 
