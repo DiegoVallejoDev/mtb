@@ -1,6 +1,6 @@
 # mtb.js - The Mountain Bike of Static Site Generators 🚵
 
-[![npm version](https://badge.fury.io/js/mtb.svg)](https://badge.fury.io/js/mtb)
+[![npm version](https://badge.fury.io/js/mtb.svg?icon=si%3Anpm)]([https://badge.fury.io/js/mtb](https://badge.fury.io/js/mtb.svg?icon=si%3Anpm))
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Just like a mountain bike, **mtb.js** is **simple**, **lightweight**, **fast**, **reliable**, and built for **all terrain**. It handles any project with ease—from simple landing pages to complex component-based applications—without the bloat of heavier frameworks.
