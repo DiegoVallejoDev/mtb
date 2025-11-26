@@ -10,6 +10,7 @@ A component-based static site generator with powerful features for building mode
 ## ✨ Features
 
 ### Core Features
+
 - 🧩 **Component-Based Architecture**: Create reusable HTML components
 - 🎯 **Component Props**: Pass dynamic values to components with `{{button text="Click" class="primary"}}`
 - 🔄 **Nested Components**: Components can include other components seamlessly
@@ -18,6 +19,7 @@ A component-based static site generator with powerful features for building mode
 - 🔒 **Security**: Path validation prevents directory traversal attacks
 
 ### Developer Experience
+
 - 👀 **Watch Mode**: Auto-rebuild on file changes with `mtb --watch`
 - 💻 **Professional CLI**: Commander-based interface with multiple commands
 - 📘 **TypeScript Support**: Full type definitions included
@@ -26,6 +28,7 @@ A component-based static site generator with powerful features for building mode
 - 🎨 **Project Initialization**: `mtb init` creates complete project structure
 
 ### Quality & Safety
+
 - ✅ **Input Validation**: Comprehensive type checking throughout
 - 🛡️ **Error Handling**: Custom error classes with helpful messages
 - 🔍 **Circular Dependency Detection**: Prevents infinite loops
@@ -81,15 +84,15 @@ mkdir -p src/components src/pages public
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Home</title>
-</head>
-<body>
-  <h1>Welcome!</h1>
-  {{button text="Get Started" class="btn-primary" type="button"}}
-  {{button text="Learn More" class="btn-secondary" type="button"}}
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+    {{button text="Get Started" class="btn-primary" type="button"}} {{button
+    text="Learn More" class="btn-secondary" type="button"}}
+  </body>
 </html>
 ```
 
@@ -156,6 +159,7 @@ mtb --quiet
 Create reusable HTML components:
 
 **Component:** `src/components/header.html`
+
 ```html
 <header>
   <h1>My Website</h1>
@@ -167,13 +171,14 @@ Create reusable HTML components:
 ```
 
 **Usage:** `src/pages/index.html`
+
 ```html
 <!DOCTYPE html>
 <html>
-<body>
-  {{header}}
-  <main>Content here</main>
-</body>
+  <body>
+    {{header}}
+    <main>Content here</main>
+  </body>
 </html>
 ```
 
@@ -182,6 +187,7 @@ Create reusable HTML components:
 Pass dynamic values to components:
 
 **Component:** `src/components/card.html`
+
 ```html
 <div class="card ${variant}">
   <h3>${title}</h3>
@@ -191,12 +197,15 @@ Pass dynamic values to components:
 ```
 
 **Usage:**
+
 ```html
-{{card title="First Post" description="This is my first post" url="/post-1" variant="featured"}}
-{{card title="Second Post" description="Another great post" url="/post-2" variant="regular"}}
+{{card title="First Post" description="This is my first post" url="/post-1"
+variant="featured"}} {{card title="Second Post" description="Another great post"
+url="/post-2" variant="regular"}}
 ```
 
 **Supported Prop Types:**
+
 - Strings: `text="Hello"`
 - Numbers: `count=42`
 - Booleans: `visible=true`
@@ -206,6 +215,7 @@ Pass dynamic values to components:
 Components can include other components:
 
 **Component:** `src/components/nav.html`
+
 ```html
 <nav>
   <a href="/">Home</a>
@@ -214,6 +224,7 @@ Components can include other components:
 ```
 
 **Component:** `src/components/header.html`
+
 ```html
 <header>
   <h1>Site Title</h1>
@@ -222,11 +233,14 @@ Components can include other components:
 ```
 
 **Usage:**
+
 ```html
-{{header}}  <!-- Automatically includes nav -->
+{{header}}
+<!-- Automatically includes nav -->
 ```
 
 **Features:**
+
 - Maximum nesting depth: 10 levels
 - Circular dependency detection
 - Clear error messages
@@ -242,9 +256,9 @@ module.exports = {
   directories: {
     components: "src/components/",
     pages: "src/pages/",
-    output: "public/"
+    output: "public/",
   },
-  verbose: false
+  verbose: false,
 };
 ```
 
@@ -267,11 +281,66 @@ Or use `.mtbrc.json`:
   directories: {
     components: "src/components/",
     pages: "src/pages/",
+    assets: "src/assets/",
     output: "public/"
   },
   watch: false,
   verbose: false
 }
+```
+
+## 🎨 Assets (CSS & JS)
+
+mtb automatically copies client-side assets (CSS, JavaScript, images, fonts, etc.) from your assets directory to the output folder, preserving the folder structure.
+
+### Supported File Types
+
+- **Stylesheets**: `.css`, `.scss`, `.sass`, `.less`
+- **JavaScript**: `.js`, `.mjs`, `.cjs`
+- **Images**: `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`, `.ico`, `.avif`
+- **Fonts**: `.woff`, `.woff2`, `.ttf`, `.otf`, `.eot`
+- **Other**: `.json`, `.xml`, `.txt`, `.pdf`, `.map`
+
+### Directory Structure
+
+```
+my-website/
+├── src/
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── main.css
+│   │   ├── js/
+│   │   │   └── app.js
+│   │   └── images/
+│   │       └── logo.png
+│   ├── components/
+│   └── pages/
+└── public/           # Output (after build)
+    ├── css/
+    │   └── main.css
+    ├── js/
+    │   └── app.js
+    ├── images/
+    │   └── logo.png
+    └── index.html
+```
+
+### Usage in Pages
+
+Reference assets using relative paths from your output directory:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    {{header}}
+    <img src="images/logo.png" alt="Logo" />
+    <script src="js/app.js"></script>
+  </body>
+</html>
 ```
 
 ## 👀 Watch Mode
@@ -283,20 +352,23 @@ mtb --watch
 ```
 
 **Features:**
-- Monitors `src/components/` and `src/pages/`
+
+- Monitors `src/components/`, `src/pages/`, and `src/assets/`
 - Debounced rebuilds (prevents rapid successive rebuilds)
 - Shows which files changed
 - Graceful shutdown with Ctrl+C
 
 **Output:**
+
 ```
 👀 Starting watch mode...
    Watching: src/components/
    Watching: src/pages/
+   Watching: src/assets/
 ✓ Watch mode active. Press Ctrl+C to stop.
 
 📝 File changed: src/components/button.html
-┏ mtb.js v0.2
+┏ mtb.js v0.3
 ...
 ✓ Build completed successfully
 ```
@@ -306,53 +378,56 @@ mtb --watch
 ### Programmatic Usage
 
 ```javascript
-const mtb = require('mtb');
+const mtb = require("mtb");
 
 // Async build
 await mtb.run({
   verbose: true,
-  configPath: './custom-config.js'
+  configPath: "./custom-config.js",
 });
 ```
 
 ### Main Classes
 
 #### Config
-```javascript
-const { Config } = require('mtb');
 
-const config = new Config('./mtb.config.js');
-const componentsDir = config.get('directories.components');
+```javascript
+const { Config } = require("mtb");
+
+const config = new Config("./mtb.config.js");
+const componentsDir = config.get("directories.components");
 ```
 
 #### ComponentRegistry
+
 ```javascript
-const { ComponentRegistry, FileManager, Logger } = require('mtb');
+const { ComponentRegistry, FileManager, Logger } = require("mtb");
 
 const logger = new Logger({ verbose: true });
 const fileManager = new FileManager(config);
 const registry = new ComponentRegistry(fileManager, logger);
 
-await registry.register('./components/button.html', 'button');
-const buttonHtml = registry.get('button');
+await registry.register("./components/button.html", "button");
+const buttonHtml = registry.get("button");
 ```
 
 #### PageCompiler
+
 ```javascript
-const { PageCompiler } = require('mtb');
+const { PageCompiler } = require("mtb");
 
 const compiler = new PageCompiler(componentRegistry, fileManager, logger);
-await compiler.loadAllPages('./src/pages');
-const compiled = compiler.compile('index');
+await compiler.loadAllPages("./src/pages");
+const compiled = compiler.compile("index");
 ```
 
 ### Legacy API (Backward Compatible)
 
 ```javascript
 // Still supported for backward compatibility
-mtb.registerComponent('./component.html', 'myComponent');
-const component = mtb.getComponent('myComponent');
-const compiled = mtb.compileComponents('index');
+mtb.registerComponent("./component.html", "myComponent");
+const component = mtb.getComponent("myComponent");
+const compiled = mtb.compileComponents("index");
 mtb.createPages();
 ```
 
@@ -361,15 +436,15 @@ mtb.createPages();
 Full TypeScript definitions are included:
 
 ```typescript
-import * as mtb from 'mtb';
+import * as mtb from "mtb";
 
 // Type-safe API usage
 const config: mtb.MtbConfig = {
   directories: {
     components: "src/components/",
     pages: "src/pages/",
-    output: "public/"
-  }
+    output: "public/",
+  },
 };
 
 // Async with proper typing
@@ -390,10 +465,23 @@ my-website/
 │   │   ├── footer.html
 │   │   ├── button.html
 │   │   └── card.html
-│   └── pages/              # Page templates
-│       ├── index.html
-│       └── about.html
+│   ├── pages/              # Page templates
+│   │   ├── index.html
+│   │   └── about.html
+│   └── assets/             # Client-side assets
+│       ├── css/
+│       │   └── main.css
+│       ├── js/
+│       │   └── app.js
+│       └── images/
+│           └── logo.png
 ├── public/                 # Compiled output (generated)
+│   ├── css/
+│   │   └── main.css
+│   ├── js/
+│   │   └── app.js
+│   ├── images/
+│   │   └── logo.png
 │   ├── index.html
 │   └── about.html
 ├── mtb.config.js          # Optional configuration
@@ -404,6 +492,7 @@ my-website/
 ## 📖 Examples
 
 For more detailed examples and patterns, check out our **[Examples Guide](./examples.md)** which includes:
+
 - Detailed component patterns
 - Layout system examples
 - Alpine.js integration examples
@@ -412,6 +501,7 @@ For more detailed examples and patterns, check out our **[Examples Guide](./exam
 ### Example 1: Blog with Props
 
 **Component:** `src/components/post.html`
+
 ```html
 <article class="post">
   <h2>${title}</h2>
@@ -422,14 +512,17 @@ For more detailed examples and patterns, check out our **[Examples Guide](./exam
 ```
 
 **Usage:**
+
 ```html
-{{post title="Getting Started with mtb" date="2024-01-15" content="Learn how to use mtb..." url="/posts/getting-started"}}
-{{post title="Advanced Features" date="2024-01-20" content="Explore advanced features..." url="/posts/advanced"}}
+{{post title="Getting Started with mtb" date="2024-01-15" content="Learn how to
+use mtb..." url="/posts/getting-started"}} {{post title="Advanced Features"
+date="2024-01-20" content="Explore advanced features..." url="/posts/advanced"}}
 ```
 
 ### Example 2: Nested Layout
 
 **Component:** `src/components/nav.html`
+
 ```html
 <nav>
   <a href="/">Home</a>
@@ -439,6 +532,7 @@ For more detailed examples and patterns, check out our **[Examples Guide](./exam
 ```
 
 **Component:** `src/components/header.html`
+
 ```html
 <header class="site-header">
   <div class="logo">My Site</div>
@@ -447,6 +541,7 @@ For more detailed examples and patterns, check out our **[Examples Guide](./exam
 ```
 
 **Component:** `src/components/layout.html`
+
 ```html
 <div class="layout">
   {{header}}
@@ -460,6 +555,7 @@ For more detailed examples and patterns, check out our **[Examples Guide](./exam
 ### Example 3: Alpine.js Integration
 
 **Component:** `src/components/counter.html`
+
 ```html
 <div x-data="{ count: 0 }" class="counter">
   <button @click="count--">-</button>
@@ -469,16 +565,20 @@ For more detailed examples and patterns, check out our **[Examples Guide](./exam
 ```
 
 **Page:**
+
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Interactive Counter</title>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
-<body>
-  {{counter}}
-</body>
+  <head>
+    <title>Interactive Counter</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    {{counter}}
+  </body>
 </html>
 ```
 
@@ -501,7 +601,7 @@ npm run test:coverage
 
 ### Architecture
 
-mtb v0.2.0 uses a modular architecture:
+mtb v0.3.0 uses a modular architecture:
 
 - **ComponentRegistry**: Manages component registration and retrieval
 - **PageCompiler**: Handles page compilation with nested component support
@@ -528,23 +628,22 @@ mtb includes several security features:
 - Reference without extension: `{{blog-post}}`
 - Props use double quotes: `{{button text="Click"}}`
 
-## 🔄 Migration from v0.1
+## 🔄 Migration from v0.2
 
-v0.2.0 is **fully backward compatible** with v0.1.x:
+v0.3.0 is **fully backward compatible** with v0.2.x:
 
 ✅ All existing code continues to work  
-✅ Same directory structure  
+✅ Same directory structure (assets dir is optional)  
 ✅ Same component syntax  
 ✅ Legacy API functions still supported
 
-**New in v0.2.0:**
-- Component props system
-- Nested components
-- Watch mode
-- CLI enhancements
-- TypeScript support
-- Async operations
-- Configuration files
+**New in v0.3.0:**
+
+- CSS & JS asset support
+- Assets directory (`src/assets/`)
+- Watch mode includes assets
+- Recursive asset copying
+- Support for images, fonts, and more
 
 ## 🤝 Contributing
 
@@ -587,7 +686,16 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📝 Version History
 
-### v0.2.0 (Latest)
+### v0.3.0 (Latest)
+
+- ✅ **CSS & JS asset support** - Auto-copy client-side files to output
+- ✅ **Assets directory** - New `src/assets/` directory for static files
+- ✅ **Watch mode for assets** - Auto-rebuild when assets change
+- ✅ **Recursive asset copying** - Preserves folder structure
+- ✅ **Support for images, fonts, and more** - PNG, JPG, SVG, WOFF2, etc.
+
+### v0.2.0
+
 - ✅ Component props system
 - ✅ Nested components with circular dependency detection
 - ✅ Watch mode for development
@@ -599,6 +707,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - ✅ Security improvements
 
 ### v0.1.x
+
 - Basic component system
 - Simple compilation
 - CLI tool

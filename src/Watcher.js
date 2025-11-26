@@ -23,12 +23,20 @@ class Watcher {
     async start() {
         const componentsDir = this.config.get('directories.components');
         const pagesDir = this.config.get('directories.pages');
+        const assetsDir = this.config.get('directories.assets');
 
         this.logger.info('👀 Starting watch mode...');
         this.logger.info(`   Watching: ${componentsDir}`);
         this.logger.info(`   Watching: ${pagesDir}`);
 
         const watchPaths = [componentsDir, pagesDir];
+
+        // Only watch assets directory if it exists
+        const fs = require('fs');
+        if (fs.existsSync(assetsDir)) {
+            watchPaths.push(assetsDir);
+            this.logger.info(`   Watching: ${assetsDir}`);
+        }
 
         this.watcher = chokidar.watch(watchPaths, {
             persistent: true,

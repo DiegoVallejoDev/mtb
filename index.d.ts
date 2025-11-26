@@ -1,4 +1,4 @@
-// Type definitions for mtb v0.2.0
+// Type definitions for mtb v0.3.0
 // Project: https://github.com/DiegoVallejoDev/mtb
 // Definitions by: Diego Vallejo
 
@@ -8,10 +8,16 @@ export interface MtbConfig {
   directories: {
     components: string;
     pages: string;
+    assets: string;
     output: string;
   };
   watch?: boolean;
   verbose?: boolean;
+}
+
+export interface AssetsCopyResult {
+  copied: number;
+  files: string[];
 }
 
 export interface RunOptions {
@@ -101,20 +107,20 @@ export function run(options?: RunOptions): Promise<void>;
 // Config class
 export class Config {
   constructor(configPath?: string | null);
-  
+
   /**
    * Get a configuration value by key
    * @param key - Configuration key (supports dot notation like 'directories.components')
    */
   get(key: string): any;
-  
+
   /**
    * Set a configuration value
    * @param key - Configuration key
    * @param value - Value to set
    */
   set(key: string, value: any): void;
-  
+
   /**
    * Get all configuration
    */
@@ -124,7 +130,7 @@ export class Config {
 // ComponentRegistry class
 export class ComponentRegistry {
   constructor(fileManager: FileManager, logger: Logger);
-  
+
   /**
    * Register a component from a file path
    * @param componentPath - Path to the component file
@@ -132,7 +138,7 @@ export class ComponentRegistry {
    * @returns The component name
    */
   register(componentPath: string, name?: string): Promise<string>;
-  
+
   /**
    * Get a component's content
    * @param name - Component name
@@ -140,26 +146,26 @@ export class ComponentRegistry {
    * @throws ComponentNotFoundError if component not found
    */
   get(name: string): string;
-  
+
   /**
    * Check if a component exists
    * @param name - Component name
    * @returns True if component exists
    */
   has(name: string): boolean;
-  
+
   /**
    * Get all component names
    * @returns Array of component names
    */
   getAll(): string[];
-  
+
   /**
    * Get the count of registered components
    * @returns Number of components
    */
   count(): number;
-  
+
   /**
    * Clear all registered components
    */
@@ -168,21 +174,25 @@ export class ComponentRegistry {
 
 // PageCompiler class
 export class PageCompiler {
-  constructor(componentRegistry: ComponentRegistry, fileManager: FileManager, logger: Logger);
-  
+  constructor(
+    componentRegistry: ComponentRegistry,
+    fileManager: FileManager,
+    logger: Logger
+  );
+
   /**
    * Load a page from file
    * @param pageName - Name of the page file
    * @param pagesDir - Pages directory path
    */
   loadPage(pageName: string, pagesDir: string): Promise<void>;
-  
+
   /**
    * Load all pages from a directory
    * @param pagesDir - Pages directory path
    */
   loadAllPages(pagesDir: string): Promise<void>;
-  
+
   /**
    * Compile a page by replacing component placeholders
    * @param pageName - Name of the page (without extension)
@@ -193,32 +203,32 @@ export class PageCompiler {
    * @throws CompilationError if compilation fails
    */
   compile(pageName: string, depth?: number, visited?: Set<string>): string;
-  
+
   /**
    * Compile and write a page to the output directory
    * @param pageName - Name of the page (without extension)
    * @param outputDir - Output directory path
    */
   compilePage(pageName: string, outputDir: string): Promise<void>;
-  
+
   /**
    * Compile and write all pages to the output directory
    * @param outputDir - Output directory path
    */
   compileAllPages(outputDir: string): Promise<void>;
-  
+
   /**
    * Get the count of loaded pages
    * @returns Number of pages
    */
   getPageCount(): number;
-  
+
   /**
    * Get all page names
    * @returns Array of page names
    */
   getAllPageNames(): string[];
-  
+
   /**
    * Clear all loaded pages
    */
@@ -228,96 +238,134 @@ export class PageCompiler {
 // FileManager class
 export class FileManager {
   constructor(config: Config);
-  
+
   /**
    * Read a file asynchronously
    * @param filePath - Path to the file
    * @returns File content
    */
   readFile(filePath: string): Promise<string>;
-  
+
   /**
    * Write a file asynchronously
    * @param filePath - Path to the file
    * @param content - Content to write
    */
   writeFile(filePath: string, content: string): Promise<void>;
-  
+
   /**
    * Read directory contents asynchronously
    * @param dirPath - Path to the directory
    * @returns Array of filenames
    */
   readDirectory(dirPath: string): Promise<string[]>;
-  
+
   /**
    * Ensure directory exists, create if it doesn't
    * @param dirPath - Path to the directory
    */
   ensureDirectory(dirPath: string): Promise<void>;
-  
+
   /**
    * Check if a file or directory exists
    * @param filePath - Path to check
    * @returns True if exists
    */
   exists(filePath: string): Promise<boolean>;
-  
+
   /**
    * Check if a file or directory exists (synchronous)
    * @param filePath - Path to check
    * @returns True if exists
    */
   existsSync(filePath: string): boolean;
+
+  /**
+   * Copy a file from source to destination
+   * @param srcPath - Source file path
+   * @param destPath - Destination file path
+   */
+  copyFile(srcPath: string, destPath: string): Promise<void>;
+
+  /**
+   * Copy all assets from source directory to output directory
+   * Supports CSS, JS, images, fonts, and other static files
+   * @param srcDir - Source assets directory
+   * @param destDir - Destination directory
+   * @param subDir - Subdirectory (for recursion)
+   * @returns Copy result with count and file list
+   */
+  copyAssets(
+    srcDir: string,
+    destDir: string,
+    subDir?: string
+  ): Promise<AssetsCopyResult>;
+
+  /**
+   * Get file extension
+   * @param filePath - Path to the file
+   * @returns File extension (lowercase, without dot)
+   */
+  getExtension(filePath: string): string;
+
+  /**
+   * Check if file is a supported asset type
+   * @param filePath - Path to the file
+   * @returns True if file is a supported asset
+   */
+  isAssetFile(filePath: string): boolean;
 }
 
 // Logger class
 export class Logger {
   constructor(options?: LoggerOptions);
-  
+
   /**
    * Log a message
    * @param message - Message to log
    * @param level - Log level
    */
-  log(message: string, level?: 'info' | 'success' | 'warning' | 'error' | 'debug'): void;
-  
+  log(
+    message: string,
+    level?: "info" | "success" | "warning" | "error" | "debug"
+  ): void;
+
   /**
    * Log an info message
    * @param message - Message to log
    */
   info(message: string): void;
-  
+
   /**
    * Log a success message
    * @param message - Message to log
    */
   success(message: string): void;
-  
+
   /**
    * Log a warning message
    * @param message - Message to log
    */
   warning(message: string): void;
-  
+
   /**
    * Log an error message
    * @param message - Message to log
    */
   error(message: string): void;
-  
+
   /**
    * Log a debug message (only if verbose mode is enabled)
    * @param message - Message to log
    */
   debug(message: string): void;
-  
+
   /**
    * Log a header
    * @param message - Message to log
    */
   header(message: string): void;
-  
+
   /**
    * Log a table
    * @param data - Data to display in table format
