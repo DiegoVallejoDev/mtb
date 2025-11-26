@@ -3,6 +3,8 @@
 [![npm version](https://badge.fury.io/js/mtb.svg)](https://badge.fury.io/js/mtb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**[📺 Live Demo](https://mtb-demo-beta.vercel.app/)** | **[📦 Demo Source](https://github.com/DiegoVallejoDev/mtb-demo)**
+
 Just like a mountain bike, **mtb.js** is **simple**, **lightweight**, **fast**, **reliable**, and built for **all terrain**. It handles any project with ease—from simple landing pages to complex component-based applications—without the bloat of heavier frameworks.
 
 A component-based static site generator with powerful features for building modern static HTML applications. Perfect for creating static websites with reusable components, props, nested components, and watch mode for rapid development.
