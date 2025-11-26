@@ -1,6 +1,6 @@
 # mtb.js - The Mountain Bike of Static Site Generators 🚵
 
-[![npm version](https://badge.fury.io/js/mtb.svg)](https://badge.fury.io/js/mtb)
+[![npm version](https://badge.fury.io/js/mtb.svg?icon=si%3Anpm)]([https://badge.fury.io/js/mtb](https://badge.fury.io/js/mtb.svg?icon=si%3Anpm))
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **[📺 Live Demo](https://mtb-demo-beta.vercel.app/)** | **[📦 Demo Source](https://github.com/DiegoVallejoDev/mtb-demo)**
