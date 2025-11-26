@@ -1,7 +1,7 @@
 {
   "name": "mtb",
   "version": "0.2.0",
-  "description": "A lightweight static site generator with component-based architecture for building static HTML applications",
+  "description": "The Mountain Bike of Static Site Generators - simple, lightweight, fast, reliable, and built for all terrain",
   "main": "index.js",
   "scripts": {
     "test": "jest",
