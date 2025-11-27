@@ -5,12 +5,53 @@
  */
 
 const path = require('path');
+const fs = require('fs').promises;
 const Config = require('./src/Config');
 const ComponentRegistry = require('./src/ComponentRegistry');
 const PageCompiler = require('./src/PageCompiler');
 const FileManager = require('./src/FileManager');
 const Logger = require('./src/utils/Logger');
 const { MtbError } = require('./src/utils/ErrorHandler');
+
+/**
+ * Recursively find all HTML component files in a directory
+ * @param {string} dir - Directory to scan
+ * @param {string} baseDir - Base directory for calculating relative paths
+ * @returns {Promise<Array<{filePath: string, componentName: string}>>} Array of file info
+ */
+async function findComponentFiles(dir, baseDir = dir) {
+    const files = [];
+    
+    try {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        
+        for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            
+            if (entry.isDirectory()) {
+                // Recursively scan subdirectories
+                const subFiles = await findComponentFiles(fullPath, baseDir);
+                files.push(...subFiles);
+            } else if (entry.isFile() && entry.name.endsWith('.html')) {
+                // Calculate relative path from base directory and normalize to forward slashes
+                const relativePath = path.relative(baseDir, fullPath);
+                const componentName = relativePath
+                    .replace(/\.html$/, '')
+                    .split(path.sep)
+                    .join('/');
+                
+                files.push({
+                    filePath: fullPath,
+                    componentName: componentName
+                });
+            }
+        }
+    } catch (error) {
+        // Directory doesn't exist or can't be read
+    }
+    
+    return files;
+}
 
 // Legacy support - maintain old global state for backward compatibility
 let legacyComponentCollection = {};
@@ -89,7 +130,7 @@ function compileComponents(page) {
     }
 
     let pageContent = legacyPagesCollection[page];
-    const componentPattern = /{{[a-zA-Z0-9_-]+}}/g;
+    const componentPattern = /{{[a-zA-Z0-9_\-\/]+}}/g;
     const components = pageContent.match(componentPattern);
 
     if (components !== null) {
@@ -158,14 +199,13 @@ async function run(options = {}) {
 
         await fileManager.ensureDirectory(OUTPUT_DIR);
 
-        // Register components (parallel)
+        // Register components recursively from subdirectories (parallel)
         logger.info("┠ Registering components...");
-        const componentFiles = await fileManager.readDirectory(COMPONENT_DIR);
-        const htmlComponents = componentFiles.filter(file => file.endsWith('.html'));
+        const componentFiles = await findComponentFiles(COMPONENT_DIR);
 
         await Promise.all(
-            htmlComponents.map(file =>
-                componentRegistry.register(path.join(COMPONENT_DIR, file))
+            componentFiles.map(({ filePath, componentName }) =>
+                componentRegistry.register(filePath, componentName)
             )
         );
 

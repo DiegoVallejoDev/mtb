@@ -91,8 +91,8 @@ class PageCompiler {
         const errors = [];
 
         // Enhanced pattern to match components with or without props
-        // Matches: {{componentName}} or {{componentName prop="value"}}
-        const componentPattern = /{{[a-zA-Z0-9_-]+(?:\s+[^}]+)?}}/g;
+        // Matches: {{componentName}}, {{ui/Button}}, or {{componentName prop="value"}}
+        const componentPattern = /{{[a-zA-Z0-9_\-\/]+(?:\s+[^}]+)?}}/g;
         const components = pageContent.match(componentPattern);
         
         if (components !== null) {
@@ -112,7 +112,7 @@ class PageCompiler {
                     }
                     
                     // Check if component contains nested components
-                    const hasNestedComponents = /{{[a-zA-Z0-9_-]+(?:\s+[^}]+)?}}/g.test(componentContent);
+                    const hasNestedComponents = /{{[a-zA-Z0-9_\-\/]+(?:\s+[^}]+)?}}/g.test(componentContent);
                     
                     if (hasNestedComponents) {
                         // Recursively compile nested components
@@ -163,7 +163,7 @@ class PageCompiler {
             ]);
         }
         
-        const componentPattern = /{{[a-zA-Z0-9_-]+(?:\s+[^}]+)?}}/g;
+        const componentPattern = /{{[a-zA-Z0-9_\-\/]+(?:\s+[^}]+)?}}/g;
         const components = content.match(componentPattern);
         const errors = [];
         
@@ -191,7 +191,7 @@ class PageCompiler {
                     }
                     
                     // Check if component contains nested components
-                    const hasNestedComponents = /{{[a-zA-Z0-9_-]+(?:\s+[^}]+)?}}/g.test(componentContent);
+                    const hasNestedComponents = /{{[a-zA-Z0-9_\-\/]+(?:\s+[^}]+)?}}/g.test(componentContent);
                     
                     if (hasNestedComponents) {
                         const newVisited = new Set(visited);
