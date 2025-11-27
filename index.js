@@ -130,7 +130,7 @@ function compileComponents(page) {
     }
 
     let pageContent = legacyPagesCollection[page];
-    const componentPattern = /{{[a-zA-Z0-9_\-\/]+}}/g;
+    const componentPattern = /{{[a-zA-Z0-9_/\-]+}}/g;
     const components = pageContent.match(componentPattern);
 
     if (components !== null) {
