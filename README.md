@@ -247,6 +247,49 @@ Components can include other components:
 - Circular dependency detection
 - Clear error messages
 
+### Subfolder Organization
+
+Organize components into logical groups using subfolders:
+
+**Directory Structure:**
+
+```
+src/components/
+├── ui/
+│   ├── Button.html
+│   ├── Card.html
+│   └── inputs/
+│       └── TextInput.html
+├── layout/
+│   ├── Header.html
+│   └── Footer.html
+└── Hero.html          ← root level component still works
+```
+
+**Usage in pages:**
+
+```html
+<!-- Root-level components -->
+{{Hero}}
+
+<!-- Subfolder components use slash syntax -->
+{{layout/Header}}
+{{ui/Card title="Welcome" content="Hello world"}}
+{{ui/Button text="Click me"}}
+
+<!-- Deeply nested components -->
+{{ui/inputs/TextInput placeholder="Enter name"}}
+
+{{layout/Footer}}
+```
+
+**Features:**
+
+- Arbitrary nesting depth (e.g., `ui/forms/inputs/TextInput`)
+- Works with component props
+- Cross-platform compatible (normalizes path separators)
+- Root-level components continue to work (backward compatible)
+
 ## ⚙️ Configuration
 
 ### Config Files
@@ -463,10 +506,15 @@ const fileManager = new mtb.FileManager(new mtb.Config());
 my-website/
 ├── src/
 │   ├── components/          # Reusable HTML components
-│   │   ├── header.html
-│   │   ├── footer.html
-│   │   ├── button.html
-│   │   └── card.html
+│   │   ├── ui/              # Organize in subfolders
+│   │   │   ├── Button.html
+│   │   │   ├── Card.html
+│   │   │   └── inputs/
+│   │   │       └── TextInput.html
+│   │   ├── layout/
+│   │   │   ├── Header.html
+│   │   │   └── Footer.html
+│   │   └── Hero.html        # Root-level components work too
 │   ├── pages/              # Page templates
 │   │   ├── index.html
 │   │   └── about.html
@@ -629,6 +677,7 @@ mtb includes several security features:
 - Use hyphens for multi-word: `blog-post.html`, `image-card.html`
 - Reference without extension: `{{blog-post}}`
 - Props use double quotes: `{{button text="Click"}}`
+- Subfolder components use slash syntax: `{{ui/Button}}`, `{{layout/Header}}`
 
 ## 🔄 Migration from v0.2
 

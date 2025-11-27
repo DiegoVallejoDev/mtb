@@ -32,8 +32,26 @@ class PathValidator {
      * @returns {boolean} True if valid
      */
     static isValidComponentName(name) {
-        // Only allow alphanumeric, hyphens, and underscores
-        return /^[a-zA-Z0-9_-]+$/.test(name);
+        // Only allow alphanumeric, hyphens, underscores, and forward slashes for subfolders
+        // Do not allow: double slashes, leading/trailing slashes, empty segments
+        if (typeof name !== 'string' || name.length === 0) {
+            return false;
+        }
+        
+        // Check for double slashes or leading/trailing slashes
+        if (name.includes('//') || name.startsWith('/') || name.endsWith('/')) {
+            return false;
+        }
+        
+        // Each segment must be valid (alphanumeric, hyphens, underscores)
+        const segments = name.split('/');
+        for (const segment of segments) {
+            if (segment.length === 0 || !/^[a-zA-Z0-9_-]+$/.test(segment)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     /**
