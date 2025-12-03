@@ -1,0 +1,40 @@
+{
+  "name": "create-mtb",
+  "version": "1.0.0",
+  "description": "CLI tool to scaffold new mtb Web Components projects",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "create-mtb": "src/index.js"
+  },
+  "scripts": {
+    "test": "echo 'No tests yet'",
+    "build": "echo 'No build step required'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoVallejoDev/mtb.git",
+    "directory": "packages/create-mtb"
+  },
+  "keywords": [
+    "create",
+    "scaffold",
+    "cli",
+    "web-components",
+    "mtb"
+  ],
+  "author": "Diego Vallejo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiegoVallejoDev/mtb/issues"
+  },
+  "homepage": "https://github.com/DiegoVallejoDev/mtb/tree/main/packages/create-mtb#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "src/",
+    "templates/",
+    "README.md"
+  ]
+}

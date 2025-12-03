@@ -1,0 +1,19 @@
+{
+  "name": "{{projectName}}",
+  "version": "1.0.0",
+  "description": "A mtb Web Components project",
+  "type": "module",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "clean": "rm -rf dist .parcel-cache"
+  },
+  "dependencies": {
+    "@mtb/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@mtb/parcel-transformer": "^1.0.0",
+    "parcel": "^2.12.0"
+  },
+  "license": "MIT"
+}

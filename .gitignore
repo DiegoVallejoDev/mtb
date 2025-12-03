@@ -7,6 +7,8 @@ coverage/
 
 # Build artifacts
 public/
+dist/
+.parcel-cache/
 
 # IDE
 .vscode/

@@ -1,0 +1,51 @@
+<template>
+  <header class="header">
+    <h1>${title}</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/docs">Docs</a>
+    </nav>
+  </header>
+</template>
+
+<style>
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  nav a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  nav a:hover {
+    color: white;
+  }
+</style>
+
+<script>
+  export default {
+    props: {
+      title: { type: String, default: 'mtb App' }
+    },
+    methods: {}
+  }
+</script>

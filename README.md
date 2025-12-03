@@ -1,727 +1,198 @@
-# mtb.js - The Mountain Bike of Static Site Generators 🚵
+# mtb - Web Components Framework 🚀
 
-[![npm version](https://badge.fury.io/js/mtb.svg?icon=si%3Anpm)]([https://badge.fury.io/js/mtb](https://badge.fury.io/js/mtb.svg?icon=si%3Anpm))
+[![npm version](https://badge.fury.io/js/@mtb%2Fcore.svg)](https://badge.fury.io/js/@mtb%2Fcore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**[📺 Live Demo](https://mtb-demo-beta.vercel.app/)** | **[📦 Demo Source](https://github.com/DiegoVallejoDev/mtb-demo)**
-
-Just like a mountain bike, **mtb.js** is **simple**, **lightweight**, **fast**, **reliable**, and built for **all terrain**. It handles any project with ease—from simple landing pages to complex component-based applications—without the bloat of heavier frameworks.
-
-A component-based static site generator with powerful features for building modern static HTML applications. Perfect for creating static websites with reusable components, props, nested components, and watch mode for rapid development.
+A lightweight Web Components framework with Parcel integration. Create reactive custom elements using a simple single-file component syntax.
 
 ## ✨ Features
 
-### Core Features
-
-- 🧩 **Component-Based Architecture**: Create reusable HTML components
-- 🎯 **Component Props**: Pass dynamic values to components with `{{button text="Click" class="primary"}}`
-- 🔄 **Nested Components**: Components can include other components seamlessly
-- 📦 **Zero Dependencies Runtime**: No heavy runtime dependencies
-- 🚀 **Async Operations**: Parallel I/O for fast builds
-- 🔒 **Security**: Path validation prevents directory traversal attacks
-
-### Developer Experience
-
-- 👀 **Watch Mode**: Auto-rebuild on file changes with `mtb --watch`
-- 💻 **Professional CLI**: Commander-based interface with multiple commands
-- 📘 **TypeScript Support**: Full type definitions included
-- ⚙️ **Configuration Files**: Support for `mtb.config.js` and `.mtbrc.json`
-- 🧪 **Testing Framework**: Jest configured with unit and integration tests
-- 🎨 **Project Initialization**: `mtb init` creates complete project structure
-
-### Quality & Safety
-
-- ✅ **Input Validation**: Comprehensive type checking throughout
-- 🛡️ **Error Handling**: Custom error classes with helpful messages
-- 🔍 **Circular Dependency Detection**: Prevents infinite loops
-- 📊 **Depth Limits**: Maximum 10-level nesting for safety
-
-## 📦 Installation
-
-### Global Installation (Recommended)
-
-```bash
-npm install -g mtb
-```
-
-### Local Installation
-
-```bash
-npm install mtb
-```
+- 🧩 **Single-File Components** - Write template, style, and script in one `.mtb` file
+- ⚡ **Reactive Properties** - Automatic re-rendering when properties change
+- 🎨 **Scoped Styles** - Shadow DOM encapsulation for isolated styles
+- 🔌 **Parcel Integration** - Zero-config build with hot module replacement
+- 📦 **Lightweight** - No heavy runtime dependencies
+- 🛠️ **Easy Scaffolding** - Create new projects with `npm create mtb`
 
 ## 🚀 Quick Start
 
-### Option 1: Use the Init Command
-
 ```bash
-# Create and initialize a new project
-mkdir my-website && cd my-website
-mtb init
+# Create a new project
+npm create mtb my-app
 
-# Build your site
-mtb
+# Navigate and install
+cd my-app
+npm install
 
-# Or use watch mode
-mtb --watch
+# Start development server
+npm start
 ```
 
-### Option 2: Manual Setup
+## 📦 Packages
 
-1. **Create your project structure:**
+| Package | Description |
+|---------|-------------|
+| [@mtb/core](./packages/core) | Core runtime for Web Components |
+| [@mtb/parcel-transformer](./packages/parcel-transformer-mtb) | Parcel transformer for .mtb files |
+| [create-mtb](./packages/create-mtb) | CLI for project scaffolding |
 
-```bash
-mkdir my-website && cd my-website
-mkdir -p src/components src/pages public
-```
+## 💻 Component Syntax
 
-2. **Create a component with props** (`src/components/button.html`):
+Create `.mtb` files with template, style, and script sections:
 
 ```html
-<button class="${class}" type="${type}">${text}</button>
+<!-- src/components/my-button.mtb -->
+<template>
+  <button class="btn btn-${variant}" @click="handleClick">
+    <slot></slot>
+  </button>
+</template>
+
+<style>
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: #3498db;
+    color: white;
+  }
+  .btn-secondary {
+    background: #95a5a6;
+    color: white;
+  }
+</style>
+
+<script>
+  export default {
+    props: {
+      variant: { type: String, default: 'primary' }
+    },
+    methods: {
+      handleClick(e) {
+        this.emit('click', e);
+      }
+    }
+  }
+</script>
 ```
 
-3. **Create a page** (`src/pages/index.html`):
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Home</title>
-  </head>
-  <body>
-    <h1>Welcome!</h1>
-    {{button text="Get Started" class="btn-primary" type="button"}} {{button
-    text="Learn More" class="btn-secondary" type="button"}}
-  </body>
-</html>
-```
-
-4. **Build your site:**
-
-```bash
-mtb
-```
-
-Your compiled pages will be in the `public/` directory!
-
-## 💻 CLI Usage
-
-### Commands
-
-```bash
-# Build all pages
-mtb
-
-# Build with explicit command
-mtb build
-
-# Watch mode - auto-rebuild on changes
-mtb --watch
-mtb -w
-mtb build --watch
-
-# Initialize a new project
-mtb init
-
-# Show help
-mtb --help
-
-# Show version
-mtb --version
-```
-
-### Options
-
-```bash
--w, --watch          Watch for changes and rebuild automatically
--v, --verbose        Enable verbose output
--q, --quiet          Suppress output
--c, --config <path>  Use custom config file
-```
-
-### Examples
-
-```bash
-# Build with watch mode and verbose output
-mtb --watch --verbose
-
-# Build using custom config
-mtb --config ./custom-config.js
-
-# Build quietly
-mtb --quiet
-```
-
-## 🎨 Component System
-
-### Simple Components
-
-Create reusable HTML components:
-
-**Component:** `src/components/header.html`
-
-```html
-<header>
-  <h1>My Website</h1>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about.html">About</a>
-  </nav>
-</header>
-```
-
-**Usage:** `src/pages/index.html`
-
-```html
-<!DOCTYPE html>
-<html>
-  <body>
-    {{header}}
-    <main>Content here</main>
-  </body>
-</html>
-```
-
-### Component Props
-
-Pass dynamic values to components:
-
-**Component:** `src/components/card.html`
-
-```html
-<div class="card ${variant}">
-  <h3>${title}</h3>
-  <p>${description}</p>
-  <a href="${url}">Read More</a>
-</div>
-```
-
-**Usage:**
-
-```html
-{{card title="First Post" description="This is my first post" url="/post-1"
-variant="featured"}} {{card title="Second Post" description="Another great post"
-url="/post-2" variant="regular"}}
-```
-
-**Supported Prop Types:**
-
-- Strings: `text="Hello"`
-- Numbers: `count=42`
-- Booleans: `visible=true`
-
-### Nested Components
-
-Components can include other components:
-
-**Component:** `src/components/nav.html`
-
-```html
-<nav>
-  <a href="/">Home</a>
-  <a href="/about">About</a>
-</nav>
-```
-
-**Component:** `src/components/header.html`
-
-```html
-<header>
-  <h1>Site Title</h1>
-  {{nav}}
-</header>
-```
-
-**Usage:**
-
-```html
-{{header}}
-<!-- Automatically includes nav -->
-```
-
-**Features:**
-
-- Maximum nesting depth: 10 levels
-- Circular dependency detection
-- Clear error messages
-
-### Subfolder Organization
-
-Organize components into logical groups using subfolders:
-
-**Directory Structure:**
+## 📁 Project Structure
 
 ```
-src/components/
-├── ui/
-│   ├── Button.html
-│   ├── Card.html
-│   └── inputs/
-│       └── TextInput.html
-├── layout/
-│   ├── Header.html
-│   └── Footer.html
-└── Hero.html          ← root level component still works
+my-app/
+├── src/
+│   ├── components/
+│   │   ├── mtb-button.mtb
+│   │   ├── mtb-card.mtb
+│   │   └── mtb-header.mtb
+│   ├── index.js
+│   └── index.html
+├── .parcelrc
+└── package.json
 ```
-
-**Usage in pages:**
-
-```html
-<!-- Root-level components -->
-{{Hero}}
-
-<!-- Subfolder components use slash syntax -->
-{{layout/Header}}
-{{ui/Card title="Welcome" content="Hello world"}}
-{{ui/Button text="Click me"}}
-
-<!-- Deeply nested components -->
-{{ui/inputs/TextInput placeholder="Enter name"}}
-
-{{layout/Footer}}
-```
-
-**Features:**
-
-- Arbitrary nesting depth (e.g., `ui/forms/inputs/TextInput`)
-- Works with component props
-- Cross-platform compatible (normalizes path separators)
-- Root-level components continue to work (backward compatible)
 
 ## ⚙️ Configuration
 
-### Config Files
-
-Create `mtb.config.js` in your project root:
-
-```javascript
-module.exports = {
-  directories: {
-    components: "src/components/",
-    pages: "src/pages/",
-    output: "public/",
-  },
-  verbose: false,
-};
-```
-
-Or use `.mtbrc.json`:
+### .parcelrc
 
 ```json
 {
-  "directories": {
-    "components": "src/components/",
-    "pages": "src/pages/",
-    "output": "dist/"
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.mtb": ["@mtb/parcel-transformer"]
   }
 }
 ```
 
-### Default Configuration
+### Using Components
+
+Import `.mtb` files in your JavaScript:
 
 ```javascript
-{
-  directories: {
-    components: "src/components/",
-    pages: "src/pages/",
-    assets: "src/assets/",
-    output: "public/"
-  },
-  watch: false,
-  verbose: false
-}
+// src/index.js
+import './components/mtb-header.mtb';
+import './components/mtb-button.mtb';
+import './components/mtb-card.mtb';
 ```
 
-## 🎨 Assets (CSS & JS)
-
-mtb automatically copies client-side assets (CSS, JavaScript, images, fonts, etc.) from your assets directory to the output folder, preserving the folder structure.
-
-### Supported File Types
-
-- **Stylesheets**: `.css`, `.scss`, `.sass`, `.less`
-- **JavaScript**: `.js`, `.mjs`, `.cjs`
-- **Images**: `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`, `.ico`, `.avif`
-- **Fonts**: `.woff`, `.woff2`, `.ttf`, `.otf`, `.eot`
-- **Other**: `.json`, `.xml`, `.txt`, `.pdf`, `.map`
-
-### Directory Structure
-
-```
-my-website/
-├── src/
-│   ├── assets/
-│   │   ├── css/
-│   │   │   └── main.css
-│   │   ├── js/
-│   │   │   └── app.js
-│   │   └── images/
-│   │       └── logo.png
-│   ├── components/
-│   └── pages/
-└── public/           # Output (after build)
-    ├── css/
-    │   └── main.css
-    ├── js/
-    │   └── app.js
-    ├── images/
-    │   └── logo.png
-    └── index.html
-```
-
-### Usage in Pages
-
-Reference assets using relative paths from your output directory:
+Use in HTML:
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body>
-    {{header}}
-    <img src="images/logo.png" alt="Logo" />
-    <script src="js/app.js"></script>
-  </body>
-</html>
-```
-
-## 👀 Watch Mode
-
-Watch mode automatically rebuilds your site when files change:
-
-```bash
-mtb --watch
-```
-
-**Features:**
-
-- Monitors `src/components/`, `src/pages/`, and `src/assets/`
-- Debounced rebuilds (prevents rapid successive rebuilds)
-- Shows which files changed
-- Graceful shutdown with Ctrl+C
-
-**Output:**
-
-```
-👀 Starting watch mode...
-   Watching: src/components/
-   Watching: src/pages/
-   Watching: src/assets/
-✓ Watch mode active. Press Ctrl+C to stop.
-
-📝 File changed: src/components/button.html
-┏ mtb.js v0.3
-...
-✓ Build completed successfully
+<mtb-header title="My App"></mtb-header>
+<mtb-button variant="primary">Click me</mtb-button>
+<mtb-card title="Hello">
+  <p>Content goes here</p>
+</mtb-card>
 ```
 
 ## 📚 API Reference
 
-### Programmatic Usage
+### MtbElement
+
+Base class for creating Web Components.
 
 ```javascript
-const mtb = require("mtb");
+import { MtbElement, defineComponent } from '@mtb/core';
 
-// Async build
-await mtb.run({
-  verbose: true,
-  configPath: "./custom-config.js",
-});
+class MyComponent extends MtbElement {
+  static properties = {
+    name: { type: String, default: 'World' }
+  };
+
+  render() {
+    return `<p>Hello, ${this._props.name}!</p>`;
+  }
+
+  styles() {
+    return `p { color: blue; }`;
+  }
+}
+
+defineComponent('my-component', MyComponent);
 ```
 
-### Main Classes
-
-#### Config
+### Reactive State
 
 ```javascript
-const { Config } = require("mtb");
+import { reactive, createStore } from '@mtb/core';
 
-const config = new Config("./mtb.config.js");
-const componentsDir = config.get("directories.components");
+// Local reactive state
+const state = reactive({ count: 0 }, () => console.log('Changed!'));
+state.count++;
+
+// Shared store
+const store = createStore({ theme: 'light' });
+store.subscribe((prop, val) => console.log(`${prop} = ${val}`));
+store.state.theme = 'dark';
 ```
 
-#### ComponentRegistry
+## 🔄 Migration from v0.x
 
-```javascript
-const { ComponentRegistry, FileManager, Logger } = require("mtb");
+mtb v1.0.0 is a complete rewrite focused on Web Components. If you're migrating from v0.x:
 
-const logger = new Logger({ verbose: true });
-const fileManager = new FileManager(config);
-const registry = new ComponentRegistry(fileManager, logger);
+1. **New Architecture** - v1.0.0 uses Web Components instead of static HTML templates
+2. **Different Syntax** - Components use `.mtb` single-file format instead of `.html`
+3. **Parcel Integration** - Built as a Parcel transformer instead of standalone CLI
+4. **No Backward Compatibility** - v1.0.0 is a breaking release
 
-await registry.register("./components/button.html", "button");
-const buttonHtml = registry.get("button");
-```
-
-#### PageCompiler
-
-```javascript
-const { PageCompiler } = require("mtb");
-
-const compiler = new PageCompiler(componentRegistry, fileManager, logger);
-await compiler.loadAllPages("./src/pages");
-const compiled = compiler.compile("index");
-```
-
-### Legacy API (Backward Compatible)
-
-```javascript
-// Still supported for backward compatibility
-mtb.registerComponent("./component.html", "myComponent");
-const component = mtb.getComponent("myComponent");
-const compiled = mtb.compileComponents("index");
-mtb.createPages();
-```
-
-## 📘 TypeScript Support
-
-Full TypeScript definitions are included:
-
-```typescript
-import * as mtb from "mtb";
-
-// Type-safe API usage
-const config: mtb.MtbConfig = {
-  directories: {
-    components: "src/components/",
-    pages: "src/pages/",
-    output: "public/",
-  },
-};
-
-// Async with proper typing
-await mtb.run({ verbose: true });
-
-// Use classes with full IntelliSense
-const logger = new mtb.Logger({ verbose: true });
-const fileManager = new mtb.FileManager(new mtb.Config());
-```
-
-## 📂 Project Structure
-
-```
-my-website/
-├── src/
-│   ├── components/          # Reusable HTML components
-│   │   ├── ui/              # Organize in subfolders
-│   │   │   ├── Button.html
-│   │   │   ├── Card.html
-│   │   │   └── inputs/
-│   │   │       └── TextInput.html
-│   │   ├── layout/
-│   │   │   ├── Header.html
-│   │   │   └── Footer.html
-│   │   └── Hero.html        # Root-level components work too
-│   ├── pages/              # Page templates
-│   │   ├── index.html
-│   │   └── about.html
-│   └── assets/             # Client-side assets
-│       ├── css/
-│       │   └── main.css
-│       ├── js/
-│       │   └── app.js
-│       └── images/
-│           └── logo.png
-├── public/                 # Compiled output (generated)
-│   ├── css/
-│   │   └── main.css
-│   ├── js/
-│   │   └── app.js
-│   ├── images/
-│   │   └── logo.png
-│   ├── index.html
-│   └── about.html
-├── mtb.config.js          # Optional configuration
-├── package.json
-└── .gitignore
-```
-
-## 📖 Examples
-
-For more detailed examples and patterns, check out our **[Examples Guide](./examples.md)** which includes:
-
-- Detailed component patterns
-- Layout system examples
-- Alpine.js integration examples
-- Full project examples
-
-### Example 1: Blog with Props
-
-**Component:** `src/components/post.html`
-
-```html
-<article class="post">
-  <h2>${title}</h2>
-  <time>${date}</time>
-  <div class="content">${content}</div>
-  <a href="${url}">Read More →</a>
-</article>
-```
-
-**Usage:**
-
-```html
-{{post title="Getting Started with mtb" date="2024-01-15" content="Learn how to
-use mtb..." url="/posts/getting-started"}} {{post title="Advanced Features"
-date="2024-01-20" content="Explore advanced features..." url="/posts/advanced"}}
-```
-
-### Example 2: Nested Layout
-
-**Component:** `src/components/nav.html`
-
-```html
-<nav>
-  <a href="/">Home</a>
-  <a href="/blog">Blog</a>
-  <a href="/contact">Contact</a>
-</nav>
-```
-
-**Component:** `src/components/header.html`
-
-```html
-<header class="site-header">
-  <div class="logo">My Site</div>
-  {{nav}}
-</header>
-```
-
-**Component:** `src/components/layout.html`
-
-```html
-<div class="layout">
-  {{header}}
-  <main class="content">
-    <!-- Page content goes here -->
-  </main>
-  {{footer}}
-</div>
-```
-
-### Example 3: Alpine.js Integration
-
-**Component:** `src/components/counter.html`
-
-```html
-<div x-data="{ count: 0 }" class="counter">
-  <button @click="count--">-</button>
-  <span x-text="count"></span>
-  <button @click="count++">+</button>
-</div>
-```
-
-**Page:**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Interactive Counter</title>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
-  </head>
-  <body>
-    {{counter}}
-  </body>
-</html>
-```
-
-## 🧪 Testing
-
-mtb includes a comprehensive testing setup with Jest:
-
-```bash
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
-```
-
-## 🛠️ Development
-
-### Architecture
-
-mtb v0.3.0 uses a modular architecture:
-
-- **ComponentRegistry**: Manages component registration and retrieval
-- **PageCompiler**: Handles page compilation with nested component support
-- **FileManager**: Async file operations with proper error handling
-- **Config**: Configuration management with file support
-- **Logger**: Structured logging with verbose/quiet modes
-- **Watcher**: File watching for auto-rebuild
-- **PropsParser**: Component props parsing and interpolation
-- **PathValidator**: Security validation for file paths
-
-### Security
-
-mtb includes several security features:
-
-- **Path Validation**: Prevents directory traversal attacks
-- **Input Validation**: Type checking on all inputs
-- **Circular Dependency Detection**: Prevents infinite loops
-- **Depth Limits**: Maximum nesting to prevent stack overflow
-
-## 🎯 Component Naming
-
-- Use lowercase: `header.html`, `footer.html`
-- Use hyphens for multi-word: `blog-post.html`, `image-card.html`
-- Reference without extension: `{{blog-post}}`
-- Props use double quotes: `{{button text="Click"}}`
-- Subfolder components use slash syntax: `{{ui/Button}}`, `{{layout/Header}}`
-
-## 🔄 Migration from v0.2
-
-v0.3.0 is **fully backward compatible** with v0.2.x:
-
-✅ All existing code continues to work  
-✅ Same directory structure (assets dir is optional)  
-✅ Same component syntax  
-✅ Legacy API functions still supported
-
-**New in v0.3.0:**
-
-- CSS & JS asset support
-- Assets directory (`src/assets/`)
-- Watch mode includes assets
-- Recursive asset copying
-- Support for images, fonts, and more
+For legacy static site generation, continue using mtb v0.3.x.
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-### Running Tests
-
-```bash
-npm test
-```
-
-### Code Quality
-
-- All code includes JSDoc comments
-- Follows strict equality conventions
-- Comprehensive error handling
-- Security-focused design
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👤 Author
 
@@ -729,53 +200,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - GitHub: [@DiegoVallejoDev](https://github.com/DiegoVallejoDev)
 
-## 🙏 Acknowledgments
-
-- Designed to work seamlessly with [Alpine.js](https://alpinejs.dev/)
-- Built with modern JavaScript best practices
-- Inspired by component-based architectures
-
-## 📝 Version History
-
-### v0.3.0 (Latest)
-
-- ✅ **CSS & JS asset support** - Auto-copy client-side files to output
-- ✅ **Assets directory** - New `src/assets/` directory for static files
-- ✅ **Watch mode for assets** - Auto-rebuild when assets change
-- ✅ **Recursive asset copying** - Preserves folder structure
-- ✅ **Support for images, fonts, and more** - PNG, JPG, SVG, WOFF2, etc.
-
-### v0.2.0
-
-- ✅ Component props system
-- ✅ Nested components with circular dependency detection
-- ✅ Watch mode for development
-- ✅ CLI enhancements with commander
-- ✅ TypeScript definitions
-- ✅ Configuration file support
-- ✅ Async operations for better performance
-- ✅ Comprehensive testing setup
-- ✅ Security improvements
-
-### v0.1.x
-
-- Basic component system
-- Simple compilation
-- CLI tool
-
-## 🚀 What's Next?
-
-Planned features for future releases:
-
-- Markdown support in components
-- Template inheritance
-- Partial compilation (build specific pages)
-- Plugin system
-- Custom template syntax
-- Build hooks and events
-
 ---
 
 **Happy building with mtb! 🎉**
-
-For more information, visit the [GitHub repository](https://github.com/DiegoVallejoDev/mtb).
