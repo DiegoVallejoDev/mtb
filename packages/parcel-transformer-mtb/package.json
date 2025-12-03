@@ -1,0 +1,50 @@
+{
+  "name": "@mtb/parcel-transformer",
+  "version": "1.0.0",
+  "description": "Parcel transformer for .mtb Web Components",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "build": "echo 'No build step required'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoVallejoDev/mtb.git",
+    "directory": "packages/parcel-transformer-mtb"
+  },
+  "keywords": [
+    "parcel",
+    "parcel-plugin",
+    "transformer",
+    "web-components",
+    "mtb"
+  ],
+  "author": "Diego Vallejo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiegoVallejoDev/mtb/issues"
+  },
+  "homepage": "https://github.com/DiegoVallejoDev/mtb/tree/main/packages/parcel-transformer-mtb#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "parcel": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@parcel/plugin": "^2.0.0"
+  },
+  "dependencies": {
+    "@mtb/core": "^1.0.0"
+  },
+  "files": [
+    "src/",
+    "README.md"
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ],
+    "transform": {}
+  }
+}

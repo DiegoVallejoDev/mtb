@@ -1,0 +1,66 @@
+<template>
+  <div class="card">
+    <h2 class="card-title">${title}</h2>
+    <div class="card-content">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
+<style>
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    color: #1e293b;
+  }
+  
+  .card-content {
+    color: #64748b;
+  }
+  
+  .card-content ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .card-content li {
+    margin: 0.25rem 0;
+  }
+  
+  .card-content code {
+    background: #f1f5f9;
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+  
+  ::slotted(p) {
+    margin: 0 0 1rem 0;
+  }
+  
+  ::slotted(mtb-button) {
+    margin-top: 1rem;
+  }
+</style>
+
+<script>
+  export default {
+    props: {
+      title: { type: String, default: 'Card Title' }
+    },
+    methods: {}
+  }
+</script>
