@@ -114,7 +114,8 @@ export class MtbElement extends HTMLElement {
 
     const type = config?.type;
     if (type === Boolean) {
-      return value === '' || value === 'true' || value === key;
+      // Boolean attributes: presence means true, 'false' means false
+      return value === '' || value === 'true';
     }
     if (type === Number) {
       const num = Number(value);

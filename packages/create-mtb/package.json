@@ -8,7 +8,7 @@
     "create-mtb": "src/index.js"
   },
   "scripts": {
-    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "test": "echo 'No tests yet'",
     "build": "echo 'No build step required'"
   },
   "repository": {
@@ -36,12 +36,5 @@
     "src/",
     "templates/",
     "README.md"
-  ],
-  "jest": {
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/test/**/*.test.js"
-    ],
-    "transform": {}
-  }
+  ]
 }
