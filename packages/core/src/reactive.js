@@ -1,5 +1,5 @@
 /**
- * @mtb/core - Reactive System
+ * @mtb-framework/core - Reactive System
  * 
  * Simple reactive state management for mtb components.
  * 
@@ -62,7 +62,7 @@ export function computed(getter) {
  */
 export function createStore(initialState) {
   const subscribers = [];
-  
+
   const state = new Proxy({ ...initialState }, {
     set(target, property, value) {
       const oldValue = target[property];

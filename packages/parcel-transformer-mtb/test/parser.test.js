@@ -1,5 +1,5 @@
 /**
- * Tests for @mtb/parcel-transformer parser
+ * Tests for @mtb-framework/parcel-transformer parser
  */
 
 import { parse, parseScript } from '../src/parser.js';
@@ -40,7 +40,7 @@ describe('parse', () => {
   test('should return null for missing sections', () => {
     const code = '<template><div></div></template>';
     const result = parse(code);
-    
+
     expect(result.template).toBe('<div></div>');
     expect(result.style).toBeNull();
     expect(result.script).toBeNull();
@@ -65,7 +65,7 @@ describe('parse', () => {
 </script>
 `;
     const result = parse(code);
-    
+
     expect(result.template).toContain('button');
     expect(result.style).toContain('.btn');
     expect(result.script).toContain('props');

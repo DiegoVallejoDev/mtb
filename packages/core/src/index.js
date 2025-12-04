@@ -1,8 +1,8 @@
 /**
- * @mtb/core
+ * @mtb-framework/core
  * 
  * Web Components framework for building reactive custom elements.
- * Designed to work with the @mtb/parcel-transformer for .mtb file support.
+ * Designed to work with the @mtb-framework/parcel-transformer for .mtb file support.
  * 
  * @copyright (c) 2024 Diego Vallejo
  * @license MIT

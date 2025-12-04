@@ -1,5 +1,5 @@
 /**
- * @mtb/core - MtbElement Base Class (CommonJS)
+ * @mtb-framework/core - MtbElement Base Class (CommonJS)
  * 
  * @copyright (c) 2024 Diego Vallejo
  * @license MIT
@@ -72,15 +72,15 @@ class MtbElement extends HTMLElement {
 
   _render() {
     this._cleanupEventListeners();
-    
+
     const template = this.render();
     const styles = this.styles?.() || '';
-    
+
     this.shadowRoot.innerHTML = `
       <style>${styles}</style>
       ${template}
     `;
-    
+
     this._attachEventListeners();
   }
 

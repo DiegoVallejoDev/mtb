@@ -1,5 +1,5 @@
 /**
- * @mtb/parcel-transformer - Parser
+ * @mtb-framework/parcel-transformer - Parser
  * 
  * Parses .mtb single-file component syntax into structured data.
  * 
@@ -17,19 +17,19 @@
 function extractTag(content, tagName) {
   const openTagRegex = new RegExp(`<${tagName}[^>]*>`, 'i');
   const closeTagRegex = new RegExp(`</${tagName}>`, 'i');
-  
+
   const openMatch = content.match(openTagRegex);
   if (!openMatch) {
     return null;
   }
-  
+
   const openTagEnd = openMatch.index + openMatch[0].length;
   const closeMatch = content.slice(openTagEnd).match(closeTagRegex);
-  
+
   if (!closeMatch) {
     return null;
   }
-  
+
   return content.slice(openTagEnd, openTagEnd + closeMatch.index).trim();
 }
 
@@ -66,7 +66,7 @@ export function parseScript(scriptContent) {
 
   const result = { props: {}, methods: {} };
   const objectContent = exportMatch[1];
-  
+
   // Parse props section - find props: { ... } with nested braces
   const propsStartMatch = objectContent.match(/props\s*:\s*\{/);
   if (propsStartMatch) {
@@ -80,7 +80,7 @@ export function parseScript(scriptContent) {
       i++;
     }
     const propsContent = objectContent.slice(propsStart, i - 1);
-    
+
     // Match individual prop definitions
     const propRegex = /(\w+)\s*:\s*\{\s*type\s*:\s*(\w+)(?:\s*,\s*default\s*:\s*(?:'([^']*)'|"([^"]*)"|(\w+)))?\s*\}/g;
     let match;
@@ -107,7 +107,7 @@ export function parseScript(scriptContent) {
       i++;
     }
     const methodsContent = objectContent.slice(methodsStart, i - 1);
-    
+
     // Match method definitions
     const methodRegex = /(\w+)\s*\(\s*([^)]*)\s*\)\s*\{([\s\S]*?)\n\s*\}/g;
     let match;

@@ -1,5 +1,5 @@
 /**
- * @mtb/core - Reactive System (CommonJS)
+ * @mtb-framework/core - Reactive System (CommonJS)
  * 
  * @copyright (c) 2024 Diego Vallejo
  * @license MIT
@@ -29,7 +29,7 @@ function computed(getter) {
 
 function createStore(initialState) {
   const subscribers = [];
-  
+
   const state = new Proxy({ ...initialState }, {
     set(target, property, value) {
       const oldValue = target[property];

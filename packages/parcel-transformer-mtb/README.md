@@ -1,11 +1,11 @@
-# @mtb/parcel-transformer
+# @mtb-framework/parcel-transformer
 
 Parcel transformer for .mtb Web Components.
 
 ## Installation
 
 ```bash
-npm install @mtb/parcel-transformer @mtb/core
+npm install @mtb-framework/parcel-transformer @mtb-framework/core
 ```
 
 ## Configuration
@@ -16,7 +16,7 @@ Add to your `.parcelrc`:
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.mtb": ["@mtb/parcel-transformer"]
+    "*.mtb": ["@mtb-framework/parcel-transformer"]
   }
 }
 ```
@@ -49,21 +49,21 @@ Create `.mtb` files with template, style, and script sections:
 <script>
   export default {
     props: {
-      variant: { type: String, default: 'primary' }
+      variant: { type: String, default: "primary" },
     },
     methods: {
       handleClick(e) {
-        this.emit('click', e);
-      }
-    }
-  }
+        this.emit("click", e);
+      },
+    },
+  };
 </script>
 ```
 
 Import in your JavaScript:
 
 ```javascript
-import './components/my-button.mtb';
+import "./components/my-button.mtb";
 ```
 
 Use in HTML:
@@ -89,14 +89,14 @@ The `<script>` section exports a component definition object:
 ```javascript
 export default {
   props: {
-    propName: { type: String, default: 'value' }
+    propName: { type: String, default: "value" },
   },
   methods: {
     methodName(arg) {
       // Method implementation
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 ## License

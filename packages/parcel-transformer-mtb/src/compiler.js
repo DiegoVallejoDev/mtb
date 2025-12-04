@@ -1,5 +1,5 @@
 /**
- * @mtb/parcel-transformer - Compiler
+ * @mtb-framework/parcel-transformer - Compiler
  * 
  * Compiles parsed .mtb components into JavaScript Web Components.
  * 
@@ -22,7 +22,7 @@ function fileNameToTagName(filePath) {
   const kebab = baseName
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .toLowerCase();
-  
+
   // Ensure name contains a hyphen (required for custom elements)
   if (!kebab.includes('-')) {
     return `mtb-${kebab}`;
@@ -69,14 +69,14 @@ function escapeTemplateString(str) {
  */
 function transformTemplate(template, props, methods) {
   if (!template) return '';
-  
+
   let result = template;
-  
+
   // Transform @event="method" syntax to data attributes
   // Matches @click="handleClick", @input="onInput", etc.
   const eventRegex = /@(\w+)="(\w+)"/g;
   const eventMappings = {};
-  
+
   result = result.replace(eventRegex, (match, eventName, methodName) => {
     // Store event mapping
     if (!eventMappings[methodName]) {
@@ -85,7 +85,7 @@ function transformTemplate(template, props, methods) {
     eventMappings[methodName].push(eventName);
     return `data-mtb-event='{"${eventName}":"${methodName}"}'`;
   });
-  
+
   // Transform ${propName} to use this._props
   // Match ${identifier} but not ${this.something}
   result = result.replace(/\$\{(?!this\.)(\w+)\}/g, (match, propName) => {
@@ -94,7 +94,7 @@ function transformTemplate(template, props, methods) {
     }
     return match;
   });
-  
+
   return result;
 }
 
@@ -108,33 +108,33 @@ function transformTemplate(template, props, methods) {
 export function compile(parsed, filePath) {
   const tagName = fileNameToTagName(filePath);
   const className = tagNameToClassName(tagName);
-  
+
   // Parse script content for props and methods
   const { props, methods } = parseScript(parsed.script);
-  
+
   // Build properties definition
   const propsDefinition = Object.entries(props).map(([name, config]) => {
     const typeStr = config.type || 'String';
-    const defaultStr = config.default !== undefined 
+    const defaultStr = config.default !== undefined
       ? `, default: ${JSON.stringify(config.default)}`
       : '';
     return `    ${name}: { type: ${typeStr}${defaultStr} }`;
   }).join(',\n');
-  
+
   // Build methods
   const methodsCode = Object.entries(methods).map(([name, config]) => {
     return `  ${name}(${config.params}) {\n    ${config.body}\n  }`;
   }).join('\n\n');
-  
+
   // Transform template
   const transformedTemplate = transformTemplate(parsed.template, props, methods);
   const escapedTemplate = escapeTemplateString(transformedTemplate);
-  
+
   // Escape styles
   const escapedStyles = escapeTemplateString(parsed.style);
-  
+
   // Generate the JavaScript code
-  const code = `import { MtbElement, defineComponent } from '@mtb/core';
+  const code = `import { MtbElement, defineComponent } from '@mtb-framework/core';
 
 class ${className} extends MtbElement {
   static properties = {
@@ -156,6 +156,6 @@ defineComponent('${tagName}', ${className});
 
 export default ${className};
 `;
-  
+
   return code;
 }

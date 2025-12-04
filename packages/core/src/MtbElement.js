@@ -1,5 +1,5 @@
 /**
- * @mtb/core - MtbElement Base Class
+ * @mtb-framework/core - MtbElement Base Class
  * 
  * A lightweight Web Components framework for building reactive custom elements.
  * 
@@ -131,15 +131,15 @@ export class MtbElement extends HTMLElement {
    */
   _render() {
     this._cleanupEventListeners();
-    
+
     const template = this.render();
     const styles = this.styles?.() || '';
-    
+
     this.shadowRoot.innerHTML = `
       <style>${styles}</style>
       ${template}
     `;
-    
+
     this._attachEventListeners();
   }
 

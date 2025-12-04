@@ -1,5 +1,5 @@
 {
-  "name": "@mtb/core",
+  "name": "@mtb-framework/core",
   "version": "1.0.0",
   "description": "Core runtime for mtb Web Components",
   "main": "src/index.js",

@@ -1,6 +1,8 @@
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.mtb": ["@mtb/parcel-transformer"]
+    "*.mtb": [
+      "@mtb-framework/parcel-transformer"
+    ]
   }
 }

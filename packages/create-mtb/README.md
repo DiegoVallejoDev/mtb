@@ -21,7 +21,7 @@ npm start
 
 The generated project includes:
 
-- Pre-configured Parcel setup with @mtb/parcel-transformer
+- Pre-configured Parcel setup with @mtb-framework/parcel-transformer
 - Example Web Components (.mtb files)
 - Basic HTML entry point
 - Development server with hot reloading

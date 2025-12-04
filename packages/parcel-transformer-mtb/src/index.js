@@ -1,5 +1,5 @@
 /**
- * @mtb/parcel-transformer
+ * @mtb-framework/parcel-transformer
  * 
  * Parcel transformer plugin for .mtb Web Components.
  * Transforms .mtb single-file components into JavaScript Web Components.
@@ -17,10 +17,10 @@ export default new Transformer({
     const code = await asset.getCode();
     const parsed = parse(code);
     const compiled = compile(parsed, asset.filePath);
-    
+
     asset.type = 'js';
     asset.setCode(compiled);
-    
+
     return [asset];
   }
 });

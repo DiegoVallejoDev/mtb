@@ -1,5 +1,5 @@
 /**
- * @mtb/core - CommonJS entry point
+ * @mtb-framework/core - CommonJS entry point
  * 
  * @copyright (c) 2024 Diego Vallejo
  * @license MIT

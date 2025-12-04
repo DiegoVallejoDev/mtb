@@ -1,6 +1,6 @@
 # mtb - Web Components Framework 🚀
 
-[![npm version](https://badge.fury.io/js/@mtb%2Fcore.svg)](https://badge.fury.io/js/@mtb%2Fcore)
+[![npm version](https://badge.fury.io/js/@mtb-framework%2Fcore.svg)](https://badge.fury.io/js/@mtb-framework%2Fcore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight Web Components framework with Parcel integration. Create reactive custom elements using a simple single-file component syntax.
@@ -27,14 +27,6 @@ npm install
 # Start development server
 npm start
 ```
-
-## 📦 Packages
-
-| Package | Description |
-|---------|-------------|
-| [@mtb/core](./packages/core) | Core runtime for Web Components |
-| [@mtb/parcel-transformer](./packages/parcel-transformer-mtb) | Parcel transformer for .mtb files |
-| [create-mtb](./packages/create-mtb) | CLI for project scaffolding |
 
 ## 💻 Component Syntax
 
@@ -68,14 +60,14 @@ Create `.mtb` files with template, style, and script sections:
 <script>
   export default {
     props: {
-      variant: { type: String, default: 'primary' }
+      variant: { type: String, default: "primary" },
     },
     methods: {
       handleClick(e) {
-        this.emit('click', e);
-      }
-    }
-  }
+        this.emit("click", e);
+      },
+    },
+  };
 </script>
 ```
 
@@ -102,7 +94,7 @@ my-app/
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.mtb": ["@mtb/parcel-transformer"]
+    "*.mtb": ["@mtb-framework/parcel-transformer"]
   }
 }
 ```
@@ -113,9 +105,9 @@ Import `.mtb` files in your JavaScript:
 
 ```javascript
 // src/index.js
-import './components/mtb-header.mtb';
-import './components/mtb-button.mtb';
-import './components/mtb-card.mtb';
+import "./components/mtb-header.mtb";
+import "./components/mtb-button.mtb";
+import "./components/mtb-card.mtb";
 ```
 
 Use in HTML:
@@ -135,11 +127,11 @@ Use in HTML:
 Base class for creating Web Components.
 
 ```javascript
-import { MtbElement, defineComponent } from '@mtb/core';
+import { MtbElement, defineComponent } from "@mtb-framework/core";
 
 class MyComponent extends MtbElement {
   static properties = {
-    name: { type: String, default: 'World' }
+    name: { type: String, default: "World" },
   };
 
   render() {
@@ -151,34 +143,31 @@ class MyComponent extends MtbElement {
   }
 }
 
-defineComponent('my-component', MyComponent);
+defineComponent("my-component", MyComponent);
 ```
 
 ### Reactive State
 
 ```javascript
-import { reactive, createStore } from '@mtb/core';
+import { reactive, createStore } from "@mtb-framework/core";
 
 // Local reactive state
-const state = reactive({ count: 0 }, () => console.log('Changed!'));
+const state = reactive({ count: 0 }, () => console.log("Changed!"));
 state.count++;
 
 // Shared store
-const store = createStore({ theme: 'light' });
+const store = createStore({ theme: "light" });
 store.subscribe((prop, val) => console.log(`${prop} = ${val}`));
-store.state.theme = 'dark';
+store.state.theme = "dark";
 ```
 
-## 🔄 Migration from v0.x
+## 📦 Packages
 
-mtb v1.0.0 is a complete rewrite focused on Web Components. If you're migrating from v0.x:
-
-1. **New Architecture** - v1.0.0 uses Web Components instead of static HTML templates
-2. **Different Syntax** - Components use `.mtb` single-file format instead of `.html`
-3. **Parcel Integration** - Built as a Parcel transformer instead of standalone CLI
-4. **No Backward Compatibility** - v1.0.0 is a breaking release
-
-For legacy static site generation, continue using mtb v0.3.x.
+| Package                                                                | Description                       |
+| ---------------------------------------------------------------------- | --------------------------------- |
+| [@mtb-framework/core](./packages/core)                                 | Core runtime for Web Components   |
+| [@mtb-framework/parcel-transformer](./packages/parcel-transformer-mtb) | Parcel transformer for .mtb files |
+| [create-mtb](./packages/create-mtb)                                    | CLI for project scaffolding       |
 
 ## 🤝 Contributing
 
@@ -199,6 +188,153 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Diego Vallejo**
 
 - GitHub: [@DiegoVallejoDev](https://github.com/DiegoVallejoDev)
+
+---
+
+## 🔬 Technical Deep Dive
+
+<details>
+<summary><strong>🏗️ Architecture Overview</strong></summary>
+
+```mermaid
+graph TB
+    subgraph "Development"
+        MTB[".mtb Files"]
+        JS["JavaScript"]
+        HTML["HTML"]
+    end
+
+    subgraph "Build Pipeline"
+        PARCEL["Parcel Bundler"]
+        TRANSFORMER["@mtb-framework/parcel-transformer"]
+        PARSER["Parser"]
+        COMPILER["Compiler"]
+    end
+
+    subgraph "Runtime"
+        CORE["@mtb-framework/core"]
+        MTBELEMENT["MtbElement"]
+        REACTIVE["Reactive System"]
+        SHADOWDOM["Shadow DOM"]
+    end
+
+    subgraph "Browser"
+        CUSTOMEL["Custom Elements"]
+        DOM["DOM"]
+    end
+
+    MTB --> PARCEL
+    JS --> PARCEL
+    HTML --> PARCEL
+    PARCEL --> TRANSFORMER
+    TRANSFORMER --> PARSER
+    PARSER --> COMPILER
+    COMPILER --> CORE
+    CORE --> MTBELEMENT
+    CORE --> REACTIVE
+    MTBELEMENT --> SHADOWDOM
+    SHADOWDOM --> CUSTOMEL
+    CUSTOMEL --> DOM
+```
+
+</details>
+
+<details>
+<summary><strong>📦 Package Structure</strong></summary>
+
+```mermaid
+graph LR
+    subgraph "Monorepo"
+        CREATE["create-mtb<br/>CLI Scaffolding"]
+        CORE["@mtb-framework/core<br/>Runtime Library"]
+        TRANSFORMER["@mtb-framework/parcel-transformer<br/>Build Plugin"]
+    end
+
+    CREATE -->|"generates project using"| CORE
+    CREATE -->|"configures"| TRANSFORMER
+    TRANSFORMER -->|"imports"| CORE
+
+    style CREATE fill:#e1f5fe
+    style CORE fill:#fff3e0
+    style TRANSFORMER fill:#f3e5f5
+```
+
+</details>
+
+<details>
+<summary><strong>🔄 Component Lifecycle</strong></summary>
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Parcel as Parcel
+    participant Transformer as Transformer
+    participant Browser as Browser
+    participant Component as MtbElement
+
+    Dev->>Parcel: Save .mtb file
+    Parcel->>Transformer: Transform request
+    Transformer->>Transformer: Parse (template, style, script)
+    Transformer->>Transformer: Compile to JS class
+    Transformer->>Parcel: Return JavaScript
+    Parcel->>Browser: Hot reload
+    Browser->>Component: Define custom element
+    Component->>Component: connectedCallback()
+    Component->>Component: Initialize props
+    Component->>Component: Create Shadow DOM
+    Component->>Component: render() + styles()
+    Component->>Browser: Display component
+```
+
+</details>
+
+<details>
+<summary><strong>⚡ Reactive Data Flow</strong></summary>
+
+```mermaid
+flowchart LR
+    subgraph "Component"
+        PROPS["Props<br/>(type, default)"]
+        STATE["Internal State<br/>(_props)"]
+        RENDER["render()"]
+    end
+
+    subgraph "Reactive System"
+        PROXY["Proxy Handler"]
+        OBSERVER["Change Observer"]
+    end
+
+    subgraph "Output"
+        SHADOW["Shadow DOM"]
+        UI["UI Update"]
+    end
+
+    PROPS --> STATE
+    STATE --> PROXY
+    PROXY -->|"set trap"| OBSERVER
+    OBSERVER -->|"triggers"| RENDER
+    RENDER --> SHADOW
+    SHADOW --> UI
+
+    style PROXY fill:#ffecb3
+    style OBSERVER fill:#ffecb3
+```
+
+</details>
+
+<details>
+<summary><strong>🔄 Migration from v0.x</strong></summary>
+
+mtb v1.0.0 is a complete rewrite focused on Web Components. If you're migrating from v0.x:
+
+1. **New Architecture** - v1.0.0 uses Web Components instead of static HTML templates
+2. **Different Syntax** - Components use `.mtb` single-file format instead of `.html`
+3. **Parcel Integration** - Built as a Parcel transformer instead of standalone CLI
+4. **No Backward Compatibility** - v1.0.0 is a breaking release
+
+For legacy static site generation, continue using mtb v0.3.x.
+
+</details>
 
 ---
 

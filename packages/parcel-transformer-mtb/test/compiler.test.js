@@ -1,5 +1,5 @@
 /**
- * Tests for @mtb/parcel-transformer compiler
+ * Tests for @mtb-framework/parcel-transformer compiler
  */
 
 import { compile } from '../src/compiler.js';
@@ -17,35 +17,35 @@ export default {
 }
 `
     };
-    
+
     const result = compile(parsed, '/path/to/my-component.mtb');
-    
-    expect(result).toContain("import { MtbElement, defineComponent } from '@mtb/core'");
+
+    expect(result).toContain("import { MtbElement, defineComponent } from '@mtb-framework/core'");
     expect(result).toContain('class MyComponent extends MtbElement');
     expect(result).toContain("defineComponent('my-component', MyComponent)");
   });
 
   test('should convert filename to kebab-case tag name', () => {
     const parsed = { template: '<div></div>', style: '', script: '' };
-    
+
     const result = compile(parsed, '/path/to/MyAwesomeButton.mtb');
-    
+
     expect(result).toContain("defineComponent('my-awesome-button'");
   });
 
   test('should add mtb- prefix to simple names', () => {
     const parsed = { template: '<div></div>', style: '', script: '' };
-    
+
     const result = compile(parsed, '/path/to/button.mtb');
-    
+
     expect(result).toContain("defineComponent('mtb-button'");
   });
 
   test('should preserve kebab-case names with hyphen', () => {
     const parsed = { template: '<div></div>', style: '', script: '' };
-    
+
     const result = compile(parsed, '/path/to/my-button.mtb');
-    
+
     expect(result).toContain("defineComponent('my-button'");
   });
 
@@ -61,9 +61,9 @@ export default {
 }
 `
     };
-    
+
     const result = compile(parsed, '/test/mtb-button.mtb');
-    
+
     expect(result).toContain('static properties');
     expect(result).toContain('variant');
     expect(result).toContain('String');
@@ -84,9 +84,9 @@ export default {
 }
 `
     };
-    
+
     const result = compile(parsed, '/test/mtb-button.mtb');
-    
+
     expect(result).toContain('data-mtb-event');
     expect(result).toContain('click');
     expect(result).toContain('handleClick');
@@ -98,9 +98,9 @@ export default {
       style: '',
       script: ''
     };
-    
+
     const result = compile(parsed, '/test/my-code.mtb');
-    
+
     expect(result).toContain('\\`template literal\\`');
   });
 
@@ -110,9 +110,9 @@ export default {
       style: null,
       script: null
     };
-    
+
     const result = compile(parsed, '/test/mtb-empty.mtb');
-    
+
     expect(result).toContain('class MtbEmpty extends MtbElement');
     expect(result).toContain('render()');
     expect(result).toContain('styles()');
