@@ -1,0 +1,52 @@
+{
+  "name": "mtb",
+  "version": "1.0.0",
+  "description": "mtb Web Components Framework - Base package",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/index.js"
+    },
+    "./core": {
+      "import": "./src/core.js"
+    },
+    "./parcel-transformer": {
+      "import": "./src/parcel-transformer.js"
+    }
+  },
+  "scripts": {
+    "build": "echo 'No build step required'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoVallejoDev/mtb.git",
+    "directory": "packages/mtb"
+  },
+  "keywords": [
+    "web-components",
+    "parcel",
+    "framework",
+    "components",
+    "custom-elements",
+    "mtb"
+  ],
+  "author": "Diego Vallejo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiegoVallejoDev/mtb/issues"
+  },
+  "homepage": "https://github.com/DiegoVallejoDev/mtb/tree/main/packages/mtb#readme",
+  "dependencies": {
+    "@mtb-framework/core": "^1.0.0",
+    "@mtb-framework/parcel-transformer": "^1.0.0"
+  },
+  "files": [
+    "src/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
