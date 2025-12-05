@@ -3,6 +3,12 @@
   "transformers": {
     "*.mtb": [
       "@mtb-framework/parcel-transformer"
+    ],
+    "*.component.html": [
+      "@mtb-framework/parcel-transformer"
+    ],
+    "*.mtb.html": [
+      "@mtb-framework/parcel-transformer"
     ]
   }
 }

@@ -26,13 +26,25 @@ The generated project includes:
 - Basic HTML entry point
 - Development server with hot reloading
 
+## Supported File Extensions
+
+mtb supports multiple file extensions for single-file components:
+
+| Extension | Description | IDE Support |
+|-----------|-------------|-------------|
+| `*.mtb` | Original mtb extension | Requires custom plugin |
+| `*.component.html` | Angular-style naming | Native HTML support |
+| `*.mtb.html` | mtb-branded HTML | Native HTML support |
+
+**Tip**: Rename your `.mtb` files to `.component.html` or `.mtb.html` for better IDE support.
+
 ## Project Structure
 
 ```
 my-app/
 ├── src/
 │   ├── components/
-│   │   ├── mtb-button.mtb
+│   │   ├── mtb-button.mtb    (can also use .component.html or .mtb.html)
 │   │   ├── mtb-card.mtb
 │   │   └── mtb-header.mtb
 │   ├── index.js

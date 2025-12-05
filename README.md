@@ -28,12 +28,24 @@ npm install
 npm start
 ```
 
+## 📄 Supported File Extensions
+
+mtb supports multiple file extensions for single-file components:
+
+| Extension | Description | IDE Support |
+|-----------|-------------|-------------|
+| `*.mtb` | Original mtb extension | Requires custom plugin |
+| `*.component.html` | Angular-style naming | Native HTML support |
+| `*.mtb.html` | mtb-branded HTML | Native HTML support |
+
+**Recommendation**: Use `*.component.html` or `*.mtb.html` for better IDE support including automatic syntax highlighting, IntelliSense, and formatting.
+
 ## 💻 Component Syntax
 
-Create `.mtb` files with template, style, and script sections:
+Create component files with template, style, and script sections. You can use any of the supported extensions (`.mtb`, `.component.html`, or `.mtb.html`):
 
 ```html
-<!-- src/components/my-button.mtb -->
+<!-- src/components/my-button.component.html (or my-button.mtb.html or my-button.mtb) -->
 <template>
   <button class="btn btn-${variant}" @click="handleClick">
     <slot></slot>
@@ -77,9 +89,9 @@ Create `.mtb` files with template, style, and script sections:
 my-app/
 ├── src/
 │   ├── components/
-│   │   ├── mtb-button.mtb
-│   │   ├── mtb-card.mtb
-│   │   └── mtb-header.mtb
+│   │   ├── mtb-button.component.html  (or .mtb.html or .mtb)
+│   │   ├── mtb-card.component.html
+│   │   └── mtb-header.component.html
 │   ├── index.js
 │   └── index.html
 ├── .parcelrc
@@ -94,20 +106,30 @@ my-app/
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.mtb": ["@mtb-framework/parcel-transformer"]
+    "*.mtb": ["@mtb-framework/parcel-transformer"],
+    "*.component.html": ["@mtb-framework/parcel-transformer"],
+    "*.mtb.html": ["@mtb-framework/parcel-transformer"]
   }
 }
 ```
 
 ### Using Components
 
-Import `.mtb` files in your JavaScript:
+Import component files in your JavaScript (all extensions are supported):
 
 ```javascript
 // src/index.js
+
+// New recommended formats (better IDE support)
+import "./components/mtb-header.component.html";
+import "./components/mtb-button.component.html";
+import "./components/mtb-card.component.html";
+
+// Alternative mtb-branded format
+import "./components/mtb-header.mtb.html";
+
+// Original format (still fully supported)
 import "./components/mtb-header.mtb";
-import "./components/mtb-button.mtb";
-import "./components/mtb-card.mtb";
 ```
 
 Use in HTML:

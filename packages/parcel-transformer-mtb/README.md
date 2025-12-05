@@ -1,6 +1,14 @@
 # @mtb-framework/parcel-transformer
 
-Parcel transformer for .mtb Web Components.
+Parcel transformer for mtb Web Components.
+
+## Supported File Extensions
+
+| Extension | Description | IDE Support |
+|-----------|-------------|-------------|
+| `*.mtb` | Original mtb extension | Requires custom plugin |
+| `*.component.html` | Angular-style naming | Native HTML support |
+| `*.mtb.html` | mtb-branded HTML | Native HTML support |
 
 ## Installation
 
@@ -16,17 +24,19 @@ Add to your `.parcelrc`:
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.mtb": ["@mtb-framework/parcel-transformer"]
+    "*.mtb": ["@mtb-framework/parcel-transformer"],
+    "*.component.html": ["@mtb-framework/parcel-transformer"],
+    "*.mtb.html": ["@mtb-framework/parcel-transformer"]
   }
 }
 ```
 
 ## Usage
 
-Create `.mtb` files with template, style, and script sections:
+Create component files with template, style, and script sections using any of the supported extensions:
 
 ```html
-<!-- src/components/my-button.mtb -->
+<!-- src/components/my-button.component.html (or my-button.mtb.html or my-button.mtb) -->
 <template>
   <button class="btn btn-${variant}" @click="handleClick">
     <slot></slot>
@@ -63,7 +73,10 @@ Create `.mtb` files with template, style, and script sections:
 Import in your JavaScript:
 
 ```javascript
-import "./components/my-button.mtb";
+// All formats are supported
+import "./components/my-button.component.html";  // Recommended
+import "./components/my-button.mtb.html";        // Alternative
+import "./components/my-button.mtb";             // Original
 ```
 
 Use in HTML:
