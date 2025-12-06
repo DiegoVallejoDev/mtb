@@ -1,6 +1,6 @@
 {
   "name": "mtb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mtb Web Components Framework - Base package",
   "type": "module",
   "main": "src/index.js",
@@ -39,8 +39,8 @@
   },
   "homepage": "https://github.com/DiegoVallejoDev/mtb/tree/main/packages/mtb#readme",
   "dependencies": {
-    "@mtb-framework/core": "^1.0.0",
-    "@mtb-framework/parcel-transformer": "^1.0.0"
+    "@mtb-framework/core": "^1.0.1",
+    "@mtb-framework/parcel-transformer": "^1.0.1"
   },
   "files": [
     "src/",

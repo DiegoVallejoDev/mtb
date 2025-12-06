@@ -10,10 +10,10 @@
     "clean": "rm -rf dist .parcel-cache"
   },
   "dependencies": {
-    "@mtb-framework/core": "^1.0.0"
+    "@mtb-framework/core": "^1.0.1"
   },
   "devDependencies": {
-    "@mtb-framework/parcel-transformer": "^1.0.0",
+    "@mtb-framework/parcel-transformer": "^1.0.1",
     "parcel": "^2.12.0"
   },
   "license": "MIT"

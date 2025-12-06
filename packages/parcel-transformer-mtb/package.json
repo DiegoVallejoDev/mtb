@@ -1,6 +1,6 @@
 {
   "name": "@mtb-framework/parcel-transformer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parcel transformer for .mtb Web Components",
   "main": "src/index.js",
   "type": "module",
@@ -34,7 +34,7 @@
     "@parcel/plugin": "^2.0.0"
   },
   "dependencies": {
-    "@mtb-framework/core": "^1.0.0"
+    "@mtb-framework/core": "^1.0.1"
   },
   "files": [
     "src/",
