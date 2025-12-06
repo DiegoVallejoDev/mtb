@@ -149,6 +149,13 @@ Use in HTML:
 Base class for creating Web Components.
 
 ```javascript
+// Recommended: import from the mtb base package
+import { MtbElement, defineComponent } from "mtb";
+
+// Alternative: import from subpath
+import { MtbElement, defineComponent } from "mtb/core";
+
+// Or directly from the core package
 import { MtbElement, defineComponent } from "@mtb-framework/core";
 
 class MyComponent extends MtbElement {
@@ -171,7 +178,8 @@ defineComponent("my-component", MyComponent);
 ### Reactive State
 
 ```javascript
-import { reactive, createStore } from "@mtb-framework/core";
+// Recommended: import from the mtb base package
+import { reactive, createStore } from "mtb";
 
 // Local reactive state
 const state = reactive({ count: 0 }, () => console.log("Changed!"));
@@ -185,11 +193,31 @@ store.state.theme = "dark";
 
 ## 📦 Packages
 
-| Package                                                                | Description                       |
-| ---------------------------------------------------------------------- | --------------------------------- |
-| [@mtb-framework/core](./packages/core)                                 | Core runtime for Web Components   |
-| [@mtb-framework/parcel-transformer](./packages/parcel-transformer-mtb) | Parcel transformer for .mtb files |
-| [create-mtb](./packages/create-mtb)                                    | CLI for project scaffolding       |
+| Package                                                                | Description                                      |
+| ---------------------------------------------------------------------- | ------------------------------------------------ |
+| [mtb](./packages/mtb)                                                  | Base package (recommended for most users)        |
+| [@mtb-framework/core](./packages/core)                                 | Core runtime for Web Components                  |
+| [@mtb-framework/parcel-transformer](./packages/parcel-transformer-mtb) | Parcel transformer for .mtb files                |
+| [create-mtb](./packages/create-mtb)                                    | CLI for project scaffolding                      |
+
+### Import Options
+
+The `mtb` base package provides a simplified way to import the framework:
+
+```javascript
+// ✅ Recommended: Import from mtb (re-exports @mtb-framework/core)
+import { MtbElement, defineComponent, reactive, createStore } from "mtb";
+
+// Alternative: Use subpath exports for explicit imports
+import { MtbElement, defineComponent } from "mtb/core";
+import transformer from "mtb/parcel-transformer";
+
+// Direct package imports (still supported)
+import { MtbElement } from "@mtb-framework/core";
+import transformer from "@mtb-framework/parcel-transformer";
+```
+
+**Recommendation**: Use `import from "mtb"` for simplicity. The subpath exports (`mtb/core`, `mtb/parcel-transformer`) are available when you need explicit control over which subpackage you're importing from.
 
 ## 🤝 Contributing
 
@@ -267,15 +295,19 @@ graph TB
 ```mermaid
 graph LR
     subgraph "Monorepo"
+        MTB["mtb<br/>Base Package"]
         CREATE["create-mtb<br/>CLI Scaffolding"]
         CORE["@mtb-framework/core<br/>Runtime Library"]
         TRANSFORMER["@mtb-framework/parcel-transformer<br/>Build Plugin"]
     end
 
+    MTB -->|"re-exports"| CORE
+    MTB -->|"re-exports"| TRANSFORMER
     CREATE -->|"generates project using"| CORE
     CREATE -->|"configures"| TRANSFORMER
     TRANSFORMER -->|"imports"| CORE
 
+    style MTB fill:#c8e6c9
     style CREATE fill:#e1f5fe
     style CORE fill:#fff3e0
     style TRANSFORMER fill:#f3e5f5
